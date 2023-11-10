@@ -19,6 +19,7 @@ body
 {
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: auto;
 
 }
 
@@ -37,6 +38,8 @@ body
     border-left: 10px solid var(--blue);
     transition: 0.6s;
     overflow: hidden;
+
+    
 }
 .navigation.active
 {
@@ -49,6 +52,7 @@ body
     top:0;
     left: 0;
     width: 100%;
+    height: fit-content;
 }
 
 .navigation ul li
@@ -62,7 +66,7 @@ body
 
 .navigation ul li:nth-child(1)
 {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     pointer-events: none;
 }
 
