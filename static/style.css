@@ -4,12 +4,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Ubuntu',sans-serif;
-    font-size: smaller;
+    font-family: 'Ubuntu','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
 }
 :root
 {
-    --blue: #002147;
+    --blue: #022242;
     --white: #fff;
     --grey: #f5f5f5;
     --black1: #222;
@@ -60,6 +60,7 @@ body
 {
     position: relative;
     width: 100%;
+    height: 50px;
     list-style: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
@@ -143,12 +144,12 @@ body
     content: '';
     position: absolute;
     right: 0;
-    bottom: -50px;
+    bottom: -40px;
     width: 50px;
     height: 50px;
     background: transparent;
     border-radius: 100%;
-    box-shadow: 30px -30px 0 var(--white);
+    box-shadow: 30px -25px 0 var(--white);
     pointer-events: none;
 }
 
@@ -171,11 +172,11 @@ body
 .topbar
 {
     width: 100%;
-    height: 100px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 5px;
 }
 
 .toggle
@@ -186,16 +187,16 @@ body
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
+    font-size: 3rem;
     cursor: pointer;
 }
 
 .search
 {
     position: relative;
-    width: 400px;
-    height: 5px;
-    margin: 0 200px;
+    width: 50%;
+    height: 30px;
+    margin: 0 250px;
     
 }
 
@@ -209,11 +210,20 @@ body
 .search label input
 {
     width: 100%;
-    height: 4px;
+    height: 100%;
     border-radius: 40px;
-    padding: 10px 20px;
+    padding: 5px 20px;
+    padding-left: 35px;
     outline: none;
     border: 1px solid var(--black1);
+}
+
+.search label ion-icon
+{
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2rem;
 }
 
 .Cardbox
@@ -234,5 +244,29 @@ body
     padding: 30px;
     border-radius: 20px;
     display: flex;
+    justify-content: space-between;
+    cursor: pointer;
     box-shadow: 2px 2px 5px rgb(0, 0, 0.2);
+}
+
+.Cardbox .card .number
+{
+    position: relative;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #1a7ada;
+
+}
+
+.Cardbox .card .name
+{
+    color: #444242;
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+.Cardbox .card .Cardlogo
+{
+    font-size: 2rem;
+    color: #444242;
 }
