@@ -9,11 +9,11 @@
 }
 :root
 {
-    --blue: #022242;
+    --blue: #032e58;
     --white: #fff;
-    --grey: #f5f5f5;
-    --black1: #222;
-    --black1: #999;
+    --grey: #f5f5f586;
+    --black1: #474747;
+    --black1: #020000;
 }
 
 body
@@ -21,7 +21,6 @@ body
     min-height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-
 }
 
 .container
@@ -85,7 +84,7 @@ body
     width: 100%;
     display: flex;
     text-decoration: none;
-    color: var(--white);
+    color: #fff;
 }
 
 
@@ -269,4 +268,38 @@ body
 {
     font-size: 2rem;
     color: #444242;
+}
+
+.card
+{
+    position: relative;
+    padding-left: 10px;
+}
+
+.card .card-header
+{
+    position: relative;
+    height: 50px;
+    background: #f3f0f0;
+    box-shadow: 0 8px 8px 0 rgba(77, 76, 76, 0.2);
+    margin-bottom: 5px;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 5px;
+    border-radius: 1px;
+}
+
+.card .card-header .h5
+{
+    position: relative;
+    font-size: larger;
+    align-content: center;
+    padding-top: 10px;
+}
+
+.card .cardBody
+{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin-top: 10px;
+    padding: 5px 5px 5px 5px;
 }
