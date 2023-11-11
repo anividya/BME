@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Ubuntu',sans-serif;
+    font-size: smaller;
 }
 :root
 {
@@ -171,6 +172,7 @@ body
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
+    background-color: #999;
 }
 
 .toggle

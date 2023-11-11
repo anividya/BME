@@ -20,13 +20,57 @@
     <div class="container">
         {% include sidebar_template %}
         <div class="main">
-            <div class="topbar"><div class="toggle"><ion-icon name="menu-outline"></ion-icon></div></div>
-            <div class="CardBox">
-                <div>
-                    <d
+            <div class="topbar">
+                <div class="toggle"><ion-icon name="menu-outline"></ion-icon></div>
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
                 </div>
-                
             </div>
+
+            <div class="Cardbox">
+                <div class="card">
+                    <div>
+                        <div class="number">1</div>
+                        <div class="name">PPM</div>
+                    </div>
+                    <div>
+                        <div class="logo"><ion-icon class="las la-tools"></ion-icon></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="number">1</div>
+                        <div class="name">PPM</div>
+                    </div>
+                    <div>
+                        <div class="logo"><ion-icon class="las la-tools"></ion-icon></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="number">1</div>
+                        <div class="name">PPM</div>
+                    </div>
+                    <div>
+                        <div class="logo"><ion-icon class="las la-tools"></ion-icon></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="number">1</div>
+                        <div class="name">PPM</div>
+                    </div>
+                    <div>
+                        <div class="logo"><ion-icon class="las la-tools"></ion-icon></div>
+                    </div>
+                </div>
+
+            </div>
+
+
             {% block content %}
 
             {% endblock content %}
