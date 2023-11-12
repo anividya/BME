@@ -229,8 +229,8 @@ body
 {
     position: relative;
     width: 100%;
-    padding: 50px;
-    top: 10%;
+    padding: 20px;
+    top: 5%;
     display: grid;
     grid-template-columns: repeat(4,1fr);
     gap: 30px;
@@ -240,7 +240,7 @@ body
 {
     position: relative;
     background: var(--white);
-    padding: 30px;
+    padding: 20px;
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
@@ -303,3 +303,11 @@ body
     margin-top: 10px;
     padding: 5px 5px 5px 5px;
 }
+
+.card .cardBody .table
+{
+    width:100%;
+    padding: 2px 2px 2px 2px;
+    font-size: 14px;
+}
+    

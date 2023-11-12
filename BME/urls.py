@@ -1,4 +1,4 @@
-"""BME URL Configuration
+"""ERP URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -14,14 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include,re_path
-from django.views.static import serve
+from django.urls import include, path
 from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import re_path
+from django.views.static import serve
+from django.views.generic import RedirectView
+from django.contrib.staticfiles.storage import staticfiles_storage
 from BMEAPP import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',include("django.contrib.auth.urls")),
     path('', include('BMEAPP.urls')),
+    path('loginpage', views.loginpage, name='loginpage'),
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon/favicon.ico'))),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]
