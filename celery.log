@@ -21450,3 +21450,4 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'workbook_list' not found. 'w
 [2025-07-06 11:02:35,767] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
 [2025-07-06 11:05:12,116] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
 [2025-07-06 11:05:15,543] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-07 15:04:28,651] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
