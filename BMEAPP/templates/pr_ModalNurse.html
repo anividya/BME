@@ -1,0 +1,96 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="modal fade" id="pr_ModalBME" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%;">
+    <div class="modal-content">
+      <div class="container">
+        <div class="modal-header">
+          <h5 class="modal-title">Purchase Request</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearbtn()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <!-- First Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="gatePassNumber">Purchase Request No</label>
+                  <input class="form-control" id="gatePassNumber" name="gate_pass_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="item">Item</label>
+                  <input class="form-control" id="item" name="item" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="sendOutDate">Requested Date</label>
+                  <input class="form-control" type="datetime-local" id="sendOutDate" name="send_out_date" readonly />
+                </div>
+              </div>
+
+              <!-- Second Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="assetNumber">Reason for Purchase</label>
+                  <input class="form-control" id="assetNumber" name="asset_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="serialNumber">Feature Required</label>
+                  <input class="form-control" id="serialNumber" name="serial_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="collectedBy">Requested By</label>
+                  <input class="form-control" id="collectedBy" name="collected_by" readonly />
+                </div>
+              </div>
+
+              <!-- Third Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="sendTo">Department</label>
+                  <input class="form-control" id="sendTo" name="send_to" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="sendBy">Status</label>
+                  <input class="form-control" id="sendBy" name="send_by" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="contactNumber">Signature</label>
+                  <input class="form-control" id="contactNumber" name="contact_number" readonly />
+                </div>
+              </div>
+            </div>
+            <!-- Button Row -->
+            <form action="gatepassAdmin" method="post" autocomplete="off" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div id="bottomRow" class="row mt-3">
+                <input id="gtID" type="hidden" name="pass_id" readonly />
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary" onclick="goToGatepass()">Print Gate Pass</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goToGatepass() {
+    // Get the value from the input field
+    const passId = document.getElementById('gatePassNumber').value
+  
+    // Check if a value is entered
+    if (passId) {
+      // Construct the URL
+      const url = `/gatepass_print/${encodeURIComponent(passId)}/`
+  
+      // Open the URL in a new tab
+      window.open(url, '_blank')
+    } else {
+      // Alert user to enter a value if the field is empty
+      alert('Please enter a Gate Pass Number.')
+    }
+  }
+</script>

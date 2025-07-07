@@ -22,6 +22,7 @@ from django.views.static import serve
 from django.views.generic import RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
 from BMEAPP import views
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 urlpatterns = [
@@ -32,4 +33,15 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon/favicon.ico'))),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    path('static/<path:path>', serve, {'document_root': settings.STATICFILES_DIRS[0]}),
+
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]

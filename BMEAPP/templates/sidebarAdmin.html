@@ -1,0 +1,47 @@
+{% load static %}
+<div class="navigation">
+    <ul>
+        <li>
+            <a href="#">
+                <span class="icon"> <img src="{% static 'logo.png' %}" height="50x" width="50px" alt="" loading="lazy" class="brand-logo"></span>
+                <span class="title"><p class="text-white p-2"><b>Home</b></p></span>
+            </a>
+        </li>
+        <li class={{hovered1}}>
+            <a href="{% url 'index' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>Assets</b></span>
+            </a>
+        </li>
+        <li class={{hovered2}}>
+            <a href="{% url 'view_wo' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>View Works</b></span>
+            </a>
+        </li>
+        <li class={{hovered3}}>
+            <a href="{% url 'gatepass' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>Gate_Pass</b></span>
+            </a>
+        </li>
+        <li class={{hovered4}}>
+            <a href="{% url 'prtable' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>Purchase Request</b></span>
+            </a>
+        </li>
+        <li class={{hovered5}}>
+            <a href="{% url 'pr_approve'%}">
+                <span class="icon"><ion-icon class="las la-shopping-cart"></ion-icon></span>
+                <span class="title"><b>Purchase Approval</b></span>
+            </a>
+        </li>
+        <li class={{hovered6}}>
+            <a href="{% url 'logoutuser' %}">
+                <span class="icon"><ion-icon class="las la-sign-out-alt"></ion-icon></span>
+                <span class="title"><b>Logout</b></span>
+            </a>
+        </li>
+    </ui>
+</div>

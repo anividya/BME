@@ -1,27 +1,83 @@
 {% load static %}
 <div class="navigation">
     <ul>
-        <li><a><span class="icon"> <img src="{% static 'logo.png' %}" height="50x" width="50px" alt="" loading="lazy" class="brand-logo" /></span><span class="title">Home</span></a>
+        <li>
+            <a href="#">
+                <span class="icon"> <img src="{% static 'logo.png' %}" height="50x" width="50px" alt="" loading="lazy" class="brand-logo"></span>
+                <span class="title"><p class="text-white p-2"><b>Home</b></p></span>
+            </a>
         </li>
-        <li class="hovered"><a><span class="icon"><ion-icon name="home-outline"></ion-icon></span><span
-                    class="title">Dashboard</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-book-open"></ion-icon></span><span class="title">Add
-                    Workorder</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-book-open"></ion-icon></span><span class="title">View
-                    Workorder</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-book-open"></ion-icon></span><span class="title">My
-                    Work Order</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-tools"></ion-icon></span><span class="title">PPM</span></a>
+        <li class={{hovered1}}>
+            <a href="{% url 'index' %}">
+                <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="title"><b>Dashboard</b></span>
+            </a>
         </li>
-        <li><a><span class="icon"><ion-icon class="las la-tools"></ion-icon></span><span
-                    class="title">Calibration</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-shopping-cart"></ion-icon></span><span class="title">Purchase
-                    Request</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-shopping-cart"></ion-icon></span><span class="title">PR
-                    Approvals</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-file-invoice-dollar"></ion-icon></span><span
-                    class="title">Bill</span></a></li>
-        <li><a><span class="icon"><ion-icon class="las la-file-pdf"></ion-icon></span><span class="title">Data
-                    Bank</span></a></li>
-        </ui>
+        <li class={{hovered2}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>Add Workorder</b></span>
+            </a>
+        </li>
+        <li class={{hovered3}}>
+            <a href="{% url 'view_wo' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>View Workorder</b></span>
+            </a>
+        </li>
+        <li class={{hovered4}}>
+            <a href="{% url 'myWork' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>My Work Order</b></span>
+            </a>
+        </li>
+        <li class={{hovered5}}>
+            <a href="{% url 'gatepass' %}">
+                <span class="icon"><ion-icon class="las la-ticket-alt"></ion-icon></span>
+                <span class="title"><b>Gate Pass</b></span>
+            </a>
+        </li>
+        <li class={{hovered6}}>
+            <a href="{% url 'monthly-report' %}">
+                <span class="icon"><ion-icon class="las la-comment-dots"></ion-icon></span>
+                <span class="title"><b>Quality Indicator</b></span>
+            </a>
+        </li>
+        <li class={{hovered7}}>
+            <a href="{% url 'prtable' %}">
+                <span class="icon"><ion-icon class="las la-shopping-cart"></ion-icon></span>
+                <span class="title"><b>Purchase Request</b></span>
+            </a>
+        </li>
+        <li class={{hovered8}}>
+            <a href="{% url 'pr_approve' %}">
+                <span class="icon"><ion-icon class="las la-shopping-cart"></ion-icon></span>
+                <span class="title"><b>PR Approvalss</b></span>
+            </a>
+        </li>
+        <li class={{hovered9}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-file-invoice-dollar"></ion-icon></span>
+                <span class="title"><b>Bill</b></span>
+            </a>
+        </li>
+        <li class={{hovered10}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-file-pdf"></ion-icon></span>
+                <span class="title"><b>Data Bank</b></span>
+            </a>
+        </li>
+        <li class={{hovered11}}>
+            <a href="{% url 'utilities' %}">
+                <span class="icon"><ion-icon name="construct-outline"></ion-icon></span>
+                <span class="title"><b>Utilities</b></span>
+            </a>
+        </li>
+        <li class={{hovered12}}>
+            <a href="{% url 'logoutuser' %}">
+                <span class="icon"><ion-icon class="las la-sign-out-alt"></ion-icon></span>
+                <span class="title"><b>Logout</b></span>
+            </a>
+        </li>
+    </ui>
 </div>

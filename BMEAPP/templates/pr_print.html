@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gatepass Receipt</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .content {
+        width: 21cm; /* A4 size width */
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        font-size: 24px;
+      }
+      .date {
+        text-align: right;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        padding: 8px;
+        border: 1px solid #000;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .signature-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+      
+      .signature {
+        text-align: center;
+        width: 30%; /* Adjust based on layout */
+      }
+      
+      .signature-box {
+        border: 1px solid #000; /* Add a solid black border */
+        padding: 10px; /* Add some spacing inside the box */
+        margin-top: 10px; /* Spacing between heading and box */
+        height: 100px; /* Adjust the height as needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .signature-box img {
+        max-height: 100%; /* Ensure the image fits within the box */
+        max-width: 100%;
+      }
+      
+      .note {
+        font-style: italic; /* Style for the "Signature not Available" message */
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Purchase Request</h1>
+      <div class="date">{{ prdata.User_Date|date:'Y-m-d' }}</div>
+
+      <!--  First Table 
+        <table>
+            <tr>
+                <th>PR No</th>
+                <td>{{ first_gatepass.pass_id }}</td>
+                <th>Collected by</th>
+                <td>{{ first_gatepass.collector_name }}</td>
+            </tr>
+            <tr>
+                <th>Contact Number</th>
+                <td>{{ first_gatepass.contact_num }}</td>
+                <th>Send To</th>
+                <td>{{ first_gatepass.send_to }}</td>
+            </tr>
+        </table>
+
+         Second Table  -->
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Need</th>
+            <th>Features Required</th>
+            <th>Current Status</th>
+            <th>BME Comment</th>
+            <th>Admin Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>{{ prdata.Eq_Name }}</td>
+              <td>{{ prdata.Need }}</td>
+              <td>{{ prdata.Eq_Features }}</td>
+              <td>{{ prdata.status }}</td>
+              <td>{{ prdata.BME_Comment }}</td>
+              <td>{{ prdata.Admin_Comment }}</td>
+            </tr>
+        </tbody>
+      </table>
+
+      <!-- Signatures Section -->
+      <div class="signature-section">
+        <div class="signature">
+          <h4>User Signature</h4>
+          <div class="signature-box">
+            {% if prdata.User_Sign %}
+              <div class="signature-image-wrapper">
+                <img src="{{ prdata.User_Sign.url }}" alt="User Signature" />
+                <div class="date">{{ prdata.User_Date|date:'Y-m-d' }}</div>
+              </div>
+            {% else %}
+              <p class="note">Signature not Available</p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="signature">
+          <h4>BME Sign</h4> <!-- Heading for the BME's signature -->
+          <div class="signature-box">
+            {% if prdata.BME_Sign %}
+            <div class="signature-image-wrapper">
+              <img src="{{ prdata.BME_Sign.url }}" alt="BME's Signature" />
+              <div class="date">{{ prdata.BME_Date|date:'Y-m-d' }}</div>
+            </div>
+            {% else %}
+              <p class="note">Not yet Signed</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="signature">
+          <h4>Admin Sign</h4> <!-- Heading for the admin's signature -->
+          <div class="signature-box">
+            {% if prdata.Admin_Sign %}
+            <div class="signature-image-wrapper">
+              <img src="{{ prdata.Admin_Sign.url }}" alt="Admin's Signature" />
+              <div class="date">{{ prdata.Admin_Sign|date:'Y-m-d' }}</div>
+            </div>
+            {% else %}
+              <p class="note">Not yet Signed</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

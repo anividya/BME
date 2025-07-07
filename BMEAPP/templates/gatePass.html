@@ -1,0 +1,154 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+  {% if user_group == "BMEADMIN" %}
+    <div class="CardboxGt">
+      <a href="{% url 'gatepass' %}?keyid=returned" style="text-decoration: none; color: inherit;">
+        <div class="cardGt">
+          <div>
+              <div class="number">{{returned}}</div>
+              <div class="name">Returned</div>
+          </div>
+          <div>
+            <div class="CardlogoGt">
+              <ion-icon class="las la-clipboard-check"></ion-icon> <!-- Updated Icon -->
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="{% url 'gatepass' %}?keyid=nonreturned" style="text-decoration: none; color: inherit;">
+        <div class="cardGt">
+          <div>
+              <div class="number">{{returnable}}</div>
+              <div class="name">Non-Returned</div>
+          </div>
+          <div>
+            <div class="CardlogoGt">
+              <ion-icon class="las la-clipboard-list"></ion-icon> <!-- Updated Icon -->
+            </div>
+          </div>
+        </div>
+      </a>
+      <div class="cardGt">
+        <div>
+          <div class="name">Report Return</div>
+        </div>
+        <div>
+          <div class="CardlogoGt">
+            <ion-icon class="las la-exchange-alt"></ion-icon> <!-- Updated Icon -->
+          </div>
+        </div>
+      </div>
+      <a href="{% url 'gatepassform' %}" class="name">
+        <div class="cardGt">
+          <div>
+            <div class="name">Add Gate Pass</div>
+          </div>
+          <div>
+            <div class="CardlogoGt">
+              <ion-icon class="las la-plus-circle"></ion-icon> <!-- Updated Icon -->
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  {% endif %}
+  <section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="h5"><strong>Gate Pass</strong></h5>
+      </div>
+      <div class="cardBody" id="parant">
+        <div class="d-flex justify-content-end mb-2">
+          <!--<button id="downloadBtn" class="btn btn-primary">Download as Excel</button>-->
+        </div>
+        <div class="entries">
+          Show<select id="entriesCount" onchange="changeEntriesPerPage()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>entries
+        </div>
+        <div class="table-container">
+          <table id="assetTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0)">
+                  Gatepass_Number<span class="sort-arrow" id="sort-arrow-0">&#8597;</span>
+                </th>
+                <th onclick="sortTable(1)">
+                  Asset<span class="sort-arrow" id="sort-arrow-1">&#8597;</span>
+                </th>
+                <th onclick="sortTable(2)">
+                  Description<span class="sort-arrow" id="sort-arrow-2">&#8597;</span>
+                </th>
+                <th onclick="sortTable(3)">
+                  Out-Date<span class="sort-arrow" id="sort-arrow-3">&#8597;</span>
+                </th>
+                <th onclick="sortTable(4)">
+                  Return-Date<span class="sort-arrow" id="sort-arrow-4">&#8597;</span>
+                </th>
+                <th onclick="sortTable(8)">
+                  Status<span class="sort-arrow" id="sort-arrow-8">&#8597;</span>
+                </th>
+                <th>__Action__</th>
+              </tr>
+              <tr>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Gatepass Number" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Asset" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Desc" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Out-Date" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Return-Date" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Status" onkeyup="filterTable()" />
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="gttableBody"></tbody>
+            <input type="hidden"  name="UserRole" id="UserRole" value="{{ user_group }}" readonly/>
+          </table>
+          <div id="tableInfo">Showing 0 to 0 of 0 entries</div>
+          <ul class="pagination" id="pagination">
+            <!-- Pagination buttons will be generated here -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% include 'gatePassModal1.html' %}
+  {% include 'gatePassModal2.html' %}
+  {% include 'gatePassModal3.html' %}
+
+  <script>
+    const tableData = [
+        {% for gatepass in gate %}
+        {
+        passid: '{{ gatepass.pass_id }}',
+        asset: '{{ gatepass.asset_name }}',
+        desc: '{{ gatepass.description }}',
+        outdate: '{{ gatepass.out_date }}',
+        indate: '{{ gatepass.in_date }}',
+        status: '{{ gatepass.status }}',
+        action: '{{forloop.counter}}'
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+</script>
+
+<script src="{% static 'gatepassTable.js' %}"></script>
+{% endblock %}

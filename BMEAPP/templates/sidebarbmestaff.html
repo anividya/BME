@@ -1,0 +1,59 @@
+{% load static %}
+<div class="navigation">
+    <ul>
+        <li>
+            <a href="#">
+                <span class="icon"> <img src="{% static 'logo.png' %}" height="50x" width="50px" alt="" loading="lazy" class="brand-logo"></span>
+                <span class="title"><p class="text-white p-2"><b>Home</b></p></span>
+            </a>
+        </li>
+        <li class={{hovered1}}>
+            <a href="{% url 'index' %}">
+                <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                <span class="title"><b>Dashboard</b></span>
+            </a>
+        </li>
+        <li class={{hovered2}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>Add Workorder</b></span>
+            </a>
+        </li>
+        <li class={{hovered3}}>
+            <a href="{% url 'view_wo' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>View Workorder</b></span>
+            </a>
+        </li>
+        <li class={{hovered4}}>
+            <a href="{% url 'myWork' %}">
+                <span class="icon"><ion-icon class="las la-book-open"></ion-icon></span>
+                <span class="title"><b>My Work Order</b></span>
+            </a>
+        </li>
+        <li class={{hovered5}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-tools"></ion-icon></span>
+                <span class="title"><b>PPM</b></span>
+            </a>
+        </li>
+        <li class={{hovered6}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-tools"></ion-icon></span>
+                <span class="title"><b>Calibration</b></span>
+            </a>
+        </li>
+        <li class={{hovered10}}>
+            <a href="{% url 'add_wo' %}">
+                <span class="icon"><ion-icon class="las la-file-pdf"></ion-icon></span>
+                <span class="title"><b>Data Bank</b></span>
+            </a>
+        </li>
+        <li class={{hovered11}}>
+            <a href="{% url 'logoutuser' %}">
+                <span class="icon"><ion-icon class="las la-sign-out-alt"></ion-icon></span>
+                <span class="title"><b>Logout</b></span>
+            </a>
+        </li>
+    </ui>
+</div>

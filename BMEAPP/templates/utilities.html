@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+  <section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="h5"><strong>Utilities</strong></h5>
+      </div>
+      <div class="cardBody" id="parant">
+        <div class="Cardbox">
+          <a href="{% url 'pmpage' %}" style="text-decoration: none; color: inherit;">
+            <div class="card">
+              <div class="cardleft">
+                <div class="number">{{ PPM_DUE }}</div>
+                <div class="name">Edit PPM</div>
+              </div>
+              <div class="cardright">
+                <div class="Cardlogo">
+                  <ion-icon class="las la-tools"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a href="{% url 'calpage' %}" style="text-decoration: none; color: inherit;">
+            <div class="card">
+              <div class="cardleft">
+                <div class="number">{{ CAL_DUE }}</div>
+                <div class="name">Edit Calibration</div>
+              </div>
+              <div class="cardright">
+                <div class="Cardlogo">
+                  <ion-icon class="las la-tools"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a href="{% url 'register' %}" style="text-decoration: none; color: inherit;">
+            <div class="card">
+              <div class="cardleft">
+                <div class="number"></div>
+                <div class="name">Add User</div>
+              </div>
+              <div class="cardright">
+                <div class="Cardlogo">
+                  <ion-icon class="las la-tools"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="card" style="cursor: pointer;" data-toggle="modal" data-target="#adddeptModal">
+            <div class="cardleft">
+              <div class="number"></div>
+              <div class="name">Add Department</div>
+            </div>
+            <div class="cardright">
+              <div class="Cardlogo">
+                <ion-icon class="las la-tools"></ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "add_dept_modal.html" %}
+  </section>
+{% endblock %}

@@ -13,6 +13,7 @@
 <body>
     <form  method="POST" class="login">
         {% csrf_token %}
+        <h1>Biomedical Asset Management</h1>
         <input type="text" autocomplete="off" name="username" placeholder="Username">
         <input type="password" autocomplete="off" name="password" placeholder="Password">
         <button type="submit"  value="Login">Login</button>

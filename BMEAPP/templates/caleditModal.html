@@ -1,0 +1,89 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+<div class="modal fade" id="caleditModal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%;">
+    <div class="modal-content shadow rounded">
+      <div class="container">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Add/Edit Calibration</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="ppmform" method="post" action="{% url 'caledit' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label>Asset ID</label>
+              <input class="form-control" id="assetid" name="asset_id" readonly />
+            </div>
+
+            <div class="form-group">
+              <label>CAL Months</label>
+              <input class="form-control" id="calmonth" name="calmonth" readonly />
+            </div>
+
+            <div class="form-group">
+              <label>Select PPM Due Months</label>
+              <div class="d-flex flex-wrap gap-2" id="month-buttons">
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="JAN">JAN</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="FEB">FEB</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="MAR">MAR</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="APR">APR</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="MAY">MAY</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="JUN">JUN</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="JUL">JUL</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="AUG">AUG</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="SEP">SEP</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="OCT">OCT</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="NOV">NOV</button>
+                <button type="button" class="btn btn-outline-primary month-btn m-1" data-month="DEC">DEC</button>
+              </div>
+            </div>
+
+            <div class="form-group text-right mt-3">
+              <button type="submit" class="btn btn-success"><i class="fas fa-database"></i> Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Month toggle logic
+  function updateMonthButtons() {
+    const selected = $('#calmonth').val().split(',').map(m => m.trim()).filter(m => m);
+    document.querySelectorAll('.month-btn').forEach(btn => {
+      const month = btn.dataset.month;
+      if (selected.includes(month)) {
+        btn.classList.remove('btn-outline-primary');
+        btn.classList.add('btn-success');
+      } else {
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-outline-primary');
+      }
+    });
+  }
+
+  // Attach event listeners to month buttons
+  document.querySelectorAll('.month-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const month = this.dataset.month;
+      const pmInput = document.getElementById('calmonth');
+      let current = pmInput.value.split(',').map(m => m.trim()).filter(m => m);
+      
+      if (current.includes(month)) {
+        current = current.filter(m => m !== month);
+      } else {
+        current.push(month);
+      }
+      
+      pmInput.value = current.join(',');
+      updateMonthButtons();
+    });
+  });
+</script>

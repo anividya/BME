@@ -2,62 +2,267 @@
 {% load static %}
 
 {% block content %}
-
+<div class="Cardbox">
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">{{status_counts.PPM_DUE}}</div>
+                <div class="name">PPM Due</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo"><ion-icon class="las la-tools"></ion-icon></div>
+            </div>
+        </div>
+    </a>
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">{{status_counts.CAL_DUE}}</div>
+                <div class="name">CAL Due</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo"><ion-icon class="las la-tools"></ion-icon></div>
+            </div>
+        </div>
+    </a>
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">1</div>
+                <div class="name">AMC/CMC Due</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo"><ion-icon class="las la-tools"></ion-icon></div>
+            </div>
+        </div>
+    </a>
+    <a href="{% url 'add_asset' %}" class="card-link">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">_</div>
+                <div class="name">Add Asset</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo">
+                    <ion-icon name="add-outline" aria-label="Add asset"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+<!-- Work Order Status Chart -->
 <section style="padding: 10px 10px 10px 10px;">
-    <div class="card" style="padding-left: 10px;">
+    <div class="card">
+        <div class="chart-container">
+            <canvas id="statusChart"></canvas>
+        </div>
+    </div>
+</section>
+<section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
         <div class="card-header">
-            <h5 class="h5">
-                <strong>Asset List</strong>
-            </h5>
+            <h5 class="h5"><strong>Asset List</strong></h5>
         </div>
         <div class="cardBody" id="parant">
-            <div class="table">
-                <table id="assetlist" class="display" style="width: 100%;">
+
+            <div class="entries">
+                Show
+                <select id="entriesCount" onchange="changeEntriesPerPage()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                </select> entries
+                <div class="d-flex justify-content-end mb-2">
+                    <a href="?asset_type=MISSL">Show MISSL Assets</a>
+                </div>
+                <div class="d-flex justify-content-end mb-2">
+                    <button id="downloadBtn" class="btn btn-primary">Download as Excel</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="assetTable">
                     <thead>
-                      <tr style="font-weight: bolder;">
-                        <td colspan="0">Asset ID</td>
-                        <td>Asset Name</td>
-                        <td>Make</td>
-                        <td>Model</td>
-                        <td>Sl_No</td>
-                        <td>Dept</td>
-                        <td>PMSTAT</td>
-                        <td>CALSTAT</td>
-                        <td>AMC/CMC</td>
-                        <td>STAT</td>
-                        <td>Action</td>
-                      </tr>
+                        <tr>
+                            <th onclick="sortTable(0)">
+                                Assei_ID<span class="sort-arrow" id="sort-arrow-0">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(1)">
+                                Asset Name<span class="sort-arrow" id="sort-arrow-1">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(2)">
+                                Make<span class="sort-arrow" id="sort-arrow-2">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(3)">
+                                Model<span class="sort-arrow" id="sort-arrow-3">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(4)">
+                                Serial Number<span class="sort-arrow" id="sort-arrow-4">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(5)">
+                                Department<span class="sort-arrow" id="sort-arrow-5">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(6)">
+                                PPM status<span class="sort-arrow" id="sort-arrow-6">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(7)">
+                                Cal Status<span class="sort-arrow" id="sort-arrow-7">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(8)">
+                                AMC/CMC<span class="sort-arrow" id="sort-arrow-8">&#8597;</span>
+                            </th>
+                            <th>__Action__</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search WO Number" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Equipment" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Make" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Model" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Serial Number" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Dept" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search PPM Due" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Warranty Due" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Status" onkeyup="filterTable()" />
+                            </th>
+                            <th></th>
+                        </tr>
                     </thead>
-                    <tbody>
-                      {% for Asset in index %}
-                      <tr>
-                        <td colspan="0">{{Asset.assetid}}</td>
-                        <td>{{Asset.assetname}}</td>
-                        <td>{{Asset.asset_make}}</td>
-                        <td>{{Asset.asset_model}}</td>
-                        <td>{{Asset.slno}}</td>
-                        <td>{{Asset.dept}}</td>
-                        <td>{{Asset.pmstat}}</td>
-                        <td>{{Asset.calstat}}</td>
-                        <td>{{Asset.amc_cmc}}</td>
-                        <td colspan="0">{{Asset.stat}}</td>
-                        <td>
-                            <a href="#viewModal-{{forloop.counter}}" class="btn btn-warning btn-sm" data-toggle="modal">
-                              <i class="fas fa-info"></i> View
-                            </a>
-                        </td>
-                      </tr>
-                      {% endfor %}
+                    <tbody id="assettableBody">
                     </tbody>
-                  </table>
                 </table>
+                <div id="tableInfo">Showing 0 to 0 of 0 entries</div>
+                <ul class="pagination" id="pagination"></ul>
             </div>
         </div>
     </div>
 </section>
 <!-- Modal -->
 {% for Asset in index %}
-{% include 'ModalAssetView.html' %}
+{% include 'AssetModalView.html' %}
 {% endfor %}
 <!-- End_Modal -->
+<script>
+    // Data passed from Django context
+    const tableData = [
+        {% for Asset in index %}
+        {
+            Asset_ID: '{{ Asset.assetid }}',
+            Asset_Name: '{{ Asset.assetname }}',
+            Make: '{{ Asset.asset_make }}',
+            Model: '{{ Asset.asset_model }}',
+            Serial: '{{ Asset.slno }}',
+            Department: '{{ Asset.dept }}',
+            PMSTAT: '{{ Asset.pmstat }}',
+            CALSTAT: '{{ Asset.calstat }}',
+            AMCSTAT: '{{ Asset.amc_cmc }}',
+            COUNTER: '{{forloop.counter}}'
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    const UserGroup = "{{ user_group }}";
+</script>
+<script src="{% static 'assetTable.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('statusChart').getContext('2d');
+        
+        const statusChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['WORK_DONE','USER_APPROVAL', 'ASSIGNED', 'RELESED'],
+                datasets: [{
+                    label: 'Work Orders by Status',
+                    data: [
+                        {{ status_counts.CLOSED }},
+                        {{ status_counts.WATUSRAPR }},
+                        {{ status_counts.ASSIGNED }},
+                        {{ status_counts.RELESED }}
+                    ],
+                    backgroundColor: [
+                        'rgba(9, 190, 9, 1)',
+                        'rgba(218, 197, 12, 1)',
+                        'rgba(238, 140, 101, 1)',
+                        'rgba(244, 67, 54, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(9, 190, 9, 0.92)',
+                        'rgba(218, 197, 12, 0.81)',
+                        'rgba(238, 140, 101, 0.52)',
+                        'rgba(244, 67, 54, 0.7)'
+                    ],
+                    borderWidth: 1,
+                    hoverBackgroundColor: [
+                        'rgba(9, 190, 9, 0.92)',
+                        'rgba(218, 197, 12, 0.81)',
+                        'rgba(238, 140, 101, 0.52)',
+                        'rgba(244, 67, 54, 0.7)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 },
+                        title: {
+                            display: true,
+                            text: ' '
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Status'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { enabled: true, mode: 'index' }
+                }
+            }
+        });
+
+        // Click handler for chart bars
+        document.getElementById('statusChart').addEventListener('click', function(e) {
+            const activePoints = statusChart.getElementsAtEventForMode(e, 'nearest', { intersect: true });
+            
+            if (activePoints.length > 0) {
+                const clickedIndex = activePoints[0].index;
+                const statusLabels = ['WORK_DONE','USER_APPROVAL', 'ASSIGNED', 'RELESED'];
+                const statusMapping = {
+                    'WORK_DONE' : 'CLOSED',
+                    'USER_APPROVAL': 'WATUSRAPR',
+                    'ASSIGNED': 'ASSIGNED',
+                    'RELESED': 'RELESED'
+                };
+                
+                const selectedStatus = statusLabels[clickedIndex];
+                const keyid = statusMapping[selectedStatus];
+                window.location.href = `{% url 'filter_wo' %}?keyid=${encodeURIComponent(keyid)}`;
+            }
+        });
+    });
+</script>
 {% endblock content %}

@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: crispy-forms-bootstrap2
+Version: 2024.1
+Summary: Django-crispy-forms bootstrap2 templates
+Home-page: https://github.com/django-crispy-forms/crispy-forms-bootstrap2
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 3.2
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.1
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.0
+License-File: LICENSE
+Requires-Dist: django-crispy-forms >=1.8
+

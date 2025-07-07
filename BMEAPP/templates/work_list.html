@@ -1,0 +1,493 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="Cardbox">
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+      <div class="card">
+        <div class="cardleft">
+          <div class="number">{{ status_counts.PPM_DUE }}</div>
+          <div class="name">PPM Due</div>
+        </div>
+        <div class="cardright">
+          <div class="Cardlogo">
+            <ion-icon class="las la-tools"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+      <div class="card">
+        <div class="cardleft">
+          <div class="number">{{ status_counts.CAL_DUE }}</div>
+          <div class="name">CAL Due</div>
+        </div>
+        <div class="cardright">
+          <div class="Cardlogo">
+            <ion-icon class="las la-tools"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+      <div class="card">
+        <div class="cardleft">
+          <div class="number">1</div>
+          <div class="name">AMC/CMC Due</div>
+        </div>
+        <div class="cardright">
+          <div class="Cardlogo">
+            <ion-icon class="las la-tools"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a href="{% url 'add_asset' %}" class="card-link">
+      <div class="card">
+        <div class="cardleft">
+          <div class="number">_</div>
+          <div class="name">Add Asset</div>
+        </div>
+        <div class="cardright">
+          <div class="Cardlogo">
+            <ion-icon name="add-outline" aria-label="Add asset"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
+      <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h5 class="h5"><strong>Work List</strong></h5>
+        <div>
+          <label>
+            Show<select id="pageLengthSelect" class="form-control form-control-sm d-inline-block w-auto">
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>entries
+          </label>
+        </div>
+      </div>
+      <div class="cardBody" id="parant">
+        <div class="table-container">
+          <div class="table-responsive">
+            <table id="assetTable" class="table table-bordered" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  {% if user_group == 'BMEADMIN' or user_group == 'BMESTAFF' %}
+                    <input type="checkbox" id="selectAllCheckbox" />Select All
+                  {% endif %}
+                  <th data-column="wo_id">
+                    Work ID <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th data-column="asset_id">
+                    Asset ID <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th data-column="asset_name">
+                    Asset Name <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th data-column="description">
+                    Compliant <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th data-column="wo_date">
+                    Released Date <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th data-column="reportingDept">
+                    Department <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th data-column="status">
+                    Status <span class="sort-icon">↑↓</span>
+                  </th>
+                  <th>Action</th>
+                </tr>
+                <tr class="search-row">
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="0" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="1" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="2" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="3" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="4" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="5" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." data-column="6" />
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="assetTableBody">
+                <!-- Data will be populated by JavaScript -->
+              </tbody>
+            </table>
+            {% if user_group == 'BMEADMIN' or user_group == 'BMESTAFF' %}
+              <button id="selectedRowBtn" class="btn btn-primary">Assign Selected WOs</button>
+            {% endif %}
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div id="assetTableInfo" class="dataTables_info"></div>
+            <ul id="assetTablePagination" class="pagination">
+              <!-- Pagination will be added by JavaScript -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input class="form-control" id="assetcat" value="{{ assetcat }}" name="assetcat" type="hidden" />
+  </section>
+  <!-- ...View Modal -->
+  {% include 'wo_groupAssign.html' %}
+  {% include 'woviewonly.html' %}
+  {% include 'viewwo_ModalBME.html' %}
+  <!-- End_Modal -->
+{% endblock %}
+{% block scripts %}
+  {{ block.super }}
+  <script>
+    $(document).ready(function () {
+      // Initialize table state
+      let currentPage = 1
+      let pageLength = 10
+      let sortColumn = 'wo_id'
+      let sortDirection = 'asc'
+      let searchTerms = ['', '', '', '', '', '', '', ''] // For each column
+    
+      // Load state from localStorage
+      function loadState() {
+        const state = localStorage.getItem('assetTableState')
+        if (state) {
+          try {
+            const parsed = JSON.parse(state)
+            currentPage = parsed.currentPage || 1
+            pageLength = parsed.pageLength || 10
+            sortColumn = parsed.sortColumn || 'wo_id'
+            sortDirection = parsed.sortDirection || 'asc'
+            searchTerms = parsed.searchTerms || ['', '', '', '', '', '', '', '']
+    
+            // Apply to UI
+            $('#pageLengthSelect').val(pageLength)
+            $('.search-input').each(function (index) {
+              $(this).val(searchTerms[index] || '')
+            })
+          } catch (e) {
+            console.error('Error loading state:', e)
+          }
+        }
+      }
+    
+      // Save state to localStorage
+      function saveState() {
+        const state = {
+          currentPage: currentPage,
+          pageLength: pageLength,
+          sortColumn: sortColumn,
+          sortDirection: sortDirection,
+          searchTerms: searchTerms
+        }
+        localStorage.setItem('assetTableState', JSON.stringify(state))
+      }
+    
+      // Function to fetch data from server
+      function fetchData() {
+        //const assetcat = document.getElementById("assetcat");
+        //console.log(assetcat.value);
+        const params = {
+          start: (currentPage - 1) * pageLength,
+          length: pageLength,
+          sort_column: sortColumn,
+          sort_direction: sortDirection,
+          search_terms: JSON.stringify(searchTerms)
+          //assettype : assetcat.value
+        }
+    
+        // Show loading indicator
+        $('#assetTableBody').html('<tr><td colspan="9" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>')
+    
+        $.ajax({
+          url: '{% url "work_data" %}',
+          type: 'GET',
+          data: params,
+          success: function (response) {
+            renderTable(response)
+            renderPagination(response)
+            saveState()
+          },
+          error: function (xhr) {
+            console.error('Error:', xhr.responseText)
+            $('#assetTableBody').html('<tr><td colspan="9" class="text-center text-danger">Error loading data</td></tr>')
+          }
+        })
+      }
+    
+      // Function to render table body
+      function renderTable(data) {
+        const tbody = $('#assetTableBody')
+        tbody.empty()
+    
+        if (data.data.length === 0) {
+          tbody.append('<tr><td colspan="9" class="text-center">No matching records found</td></tr>')
+          return
+        }
+        //row.append($('<td>').append($('<input>', {type: 'checkbox',class: 'rowCheckbox','data-workid': asset.assetid}),' ' + asset.assetid));
+    
+        $.each(data.data, function (i, asset) {
+          const row = $('<tr>')
+          row.append($('<td>').append($('<input>', { type: 'checkbox', class: 'rowCheckbox', 'data-workid': asset.wo_id }), ' ', $('<span>').text(asset.wo_id).css('font-weight', 'bold')))
+          row.append($('<td>').text(asset.asset_id))
+          row.append($('<td>').text(asset.asset_name))
+          row.append($('<td>').text(asset.description))
+          row.append($('<td>').text(asset.wo_date))
+          row.append($('<td>').text(asset.dept))
+          row.append($('<td>').text(asset.status))
+          const actionBtn = $('<button>').addClass('btn btn-sm btn-info view-btn').text('View_').attr('data-id', asset.wo_id).attr('data-wo-date', asset.wo_date)
+          row.append($('<td>').append(actionBtn))
+          tbody.append(row)
+        })
+    
+        // Update table info
+        const start = (currentPage - 1) * pageLength + 1
+        const end = start + data.data.length - 1
+        const total = data.recordsFiltered
+        $('#assetTableInfo').text(`Showing ${start} to ${end} of ${total} entries`)
+      }
+    
+      // Function to render pagination
+      function renderPagination(data) {
+        const pagination = $('#assetTablePagination')
+        pagination.empty()
+    
+        const totalPages = Math.ceil(data.recordsFiltered / pageLength)
+        if (totalPages <= 1) return
+    
+        // Previous button
+        const prevLi = $('<li>')
+          .addClass('page-item')
+          .toggleClass('disabled', currentPage === 1)
+        prevLi.append(
+          $('<a>')
+            .addClass('page-link')
+            .attr('href', '#')
+            .html('&laquo;')
+            .click(function (e) {
+              e.preventDefault()
+              if (currentPage > 1) {
+                currentPage--
+                fetchData()
+              }
+            })
+        )
+        pagination.append(prevLi)
+    
+        // Page numbers
+        const maxVisiblePages = 5
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+    
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1)
+        }
+    
+        for (let i = startPage; i <= endPage; i++) {
+          const pageLi = $('<li>')
+            .addClass('page-item')
+            .toggleClass('active', i === currentPage)
+          pageLi.append(
+            $('<a>')
+              .addClass('page-link')
+              .attr('href', '#')
+              .text(i)
+              .click(function (e) {
+                e.preventDefault()
+                currentPage = i
+                fetchData()
+              })
+          )
+          pagination.append(pageLi)
+        }
+    
+        // Next button
+        const nextLi = $('<li>')
+          .addClass('page-item')
+          .toggleClass('disabled', currentPage === totalPages)
+        nextLi.append(
+          $('<a>')
+            .addClass('page-link')
+            .attr('href', '#')
+            .html('&raquo;')
+            .click(function (e) {
+              e.preventDefault()
+              if (currentPage < totalPages) {
+                currentPage++
+                fetchData()
+              }
+            })
+        )
+        pagination.append(nextLi)
+      }
+    
+      // Handle sort when clicking on header
+      $('th[data-column]').click(function () {
+        const column = $(this).data('column')
+    
+        // Update sort direction if same column clicked
+        if (sortColumn === column) {
+          sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'
+        } else {
+          sortColumn = column
+          sortDirection = 'asc'
+        }
+    
+        // Reset to first page when sorting changes
+        currentPage = 1
+    
+        // Update UI
+        $('.sort-icon').html('↑↓')
+        $(this)
+          .find('.sort-icon')
+          .html(sortDirection === 'asc' ? '↑' : '↓')
+    
+        fetchData()
+      })
+    
+      // Handle search input
+      $('.search-input').on('input', function () {
+        const colIndex = $(this).data('column')
+        searchTerms[colIndex] = $(this).val()
+    
+        // Reset to first page when search changes
+        currentPage = 1
+    
+        // Use debounce to prevent too many requests
+        clearTimeout($(this).data('timeout'))
+        $(this).data('timeout', setTimeout(fetchData, 500))
+      })
+    
+      // Handle page length change
+      $('#pageLengthSelect').change(function () {
+        pageLength = parseInt($(this).val())
+        currentPage = 1
+        fetchData()
+      })
+
+      $(document).on('click', '.view-btn', function () {
+        const workId = $(this).data('id');
+        const woDate = $(this).data('wo-date'); // retrieves data-wo-date
+        console.log(woDate);
+        const UserGroup = '{{ user_group }}';
+        console.log(UserGroup);
+
+        if (UserGroup == 'BMESTAFF') {
+          document.getElementById('workid').value = workId;
+          document.getElementById('wo_Link').href = 'service-report/' + workId;
+          $('#viewwoModalBME').modal('show');
+          // woid(workId);
+        } else {
+          $('#woviewonly').modal('show');
+          var wid = document.getElementById('woid');
+          wid.value = workId;
+          document.getElementById('woLink').href = 'service-report/' + workId;
+
+          var woDateObj = new Date(woDate);
+
+          var day = String(woDateObj.getDate()).padStart(2, '0');
+          var month = String(woDateObj.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+          var year = woDateObj.getFullYear();
+
+          var hours = String(woDateObj.getHours()).padStart(2, '0');
+          var minutes = String(woDateObj.getMinutes()).padStart(2, '0');
+
+          // Format as DD-MM-YYYY hh:mm
+          var formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
+
+          document.getElementById('woattended').value = formattedDate;
+        }
+      });
+      
+      // Initialize
+      loadState()
+      fetchData()
+    
+      // Set initial sort indicator
+      $(`th[data-column="${sortColumn}"] .sort-icon`).html(sortDirection === 'asc' ? '↑' : '↓')
+    })
+  </script>
+  {% if user_group == 'BMEADMIN' or user_group == 'BMESTAFF' %}
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Select All functionality
+        document.getElementById('selectAllCheckbox').addEventListener('change', function () {
+          const checkboxes = document.querySelectorAll('.rowCheckbox')
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = this.checked
+          })
+        })
+      
+        // Selected Row button functionality
+        document.getElementById('selectedRowBtn').addEventListener('click', function () {
+          const selectedWorkIds = []
+          document.querySelectorAll('.rowCheckbox:checked').forEach((checkbox) => {
+            selectedWorkIds.push(checkbox.getAttribute('data-workid'))
+          })
+          console.log('Selected Work IDs:', selectedWorkIds)
+          // Here you can add further processing
+          if (selectedWorkIds.length === 0) {
+            alert('Please select at least one row.')
+            return
+          }
+      
+          // Join IDs as comma-separated string or pass array as needed
+          document.getElementById('wo_id').value = selectedWorkIds.join(',')
+      
+          // Optionally display the selected IDs inside the modal
+          document.getElementById('selectedDisplay').value = selectedWorkIds.join(', ')
+      
+          // Show the modal (Bootstrap 5 way)
+          const modal = new bootstrap.Modal(document.getElementById('wogroupModalBME'))
+          modal.show()
+        })
+      })
+    </script>
+  {% endif %}
+  <script>
+    function woid(workid) {
+      var idField2 = document.getElementById('wo_id')
+    
+      idField2.value = workid
+      console.log(workid)
+    
+      document.getElementById('wo_Link').href = 'service-report/' + workid
+    
+      //var dateField = document.getElementById('wo_attended');
+      //dateField.value = wodate.date;
+      const now = new Date()
+    
+      // Format year, month, day
+      const year = now.getFullYear()
+      const month = String(now.getMonth() + 1).padStart(2, '0') // Months are 0-based
+      const day = String(now.getDate()).padStart(2, '0')
+    
+      // Format hours and minutes
+      const hours = String(now.getHours()).padStart(2, '0')
+      const minutes = String(now.getMinutes()).padStart(2, '0')
+    
+      // Combine into the desired format
+      const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`
+      var dateField = document.getElementById('wo_attended')
+      dateField.value = formattedDateTime
+    }
+  </script>
+{% endblock %}

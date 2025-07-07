@@ -1,0 +1,188 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load bootstrap5 %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content" style="margin-left: 10px;">
+    <form action="{% url 'gatepassform' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ formset.management_form }}
+      {{ formset.non_form_errors }}
+      <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);margin-top: 0%;">
+        <div class="card-header">
+          <h1 class="card-title">Create Gate-Pass</h1>
+        </div>
+        <div class="card-body">
+          <div class="row form-data">
+            {% csrf_token %}
+            <div style="display: grid; grid-template-columns: repeat(5, 800fr); gap: 10px;">
+              <div>
+                <div class="form-group" style="margin-left: 20px;">
+                  <label style="margin-top: 0%;font-weight: bold;">GatePass No:</label>
+                  <input class="form-control" type="text" name="gtpid" value="{{ gtpid }}" readonly />
+                </div>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label style="margin-top: 0%;font-weight: bold;">GT OUT_Date:</label>
+                  <input class="form-control" type="datetime-local" name="gtp_date" required />
+                </div>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label style="margin-top: 0%;font-weight: bold;">Items Send By:</label>
+                  <input class="form-control" type="text" name="send_by" required />
+                </div>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label style="margin-top: 0%;font-weight: bold;">Items Send TO:</label>
+                  <input class="form-control" type="text" name="gtp_to" required />
+                </div>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label style="margin-top: 0%;font-weight: bold;">Items Collected By:</label>
+                  <input class="form-control" type="text" name="collected_by" required />
+                </div>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, 800fr); gap: 10px;margin-left: 2%;">
+                <div class="form-group">
+                  <label style="margin-top: 0%;font-weight: bold;">Contact Number:</label>
+                  <input class="form-control" type="text" name="contact_num" required />
+                  <input class="form-control" id="rownum" type="hidden" name="gtp-TOTAL_FORMS" value="{{1}}" required/>
+                </div>
+                <div class="form-group">
+                  <label style="margin-top: 0%;font-weight: bold;">Gate Pass Type:</label>
+                  <select class="form-control" id="gttype" name="gttype" required>
+                    <option class="form-control" value="" selected disabled>--Choose Item--</option>
+                    {% for gttype in gttypes %}
+                      <option value="{{ gttype.id }}">{{ gttype.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </div>
+            {% include 'gtFormtable.html' %}
+            <div class="signature-container">
+              <div class="signature-item">
+                <label for="myCanvas1">Signature-Collected Person:</label>
+                <canvas id="myCanvas1" name="sign1" width="300" height="100"></canvas>
+                <input type="hidden" id="canvas_data1" name="canvas_data1" required />
+                <div class="button-group">
+                  <input id="btnSubmitSign1" class="btn btn-secondary btn-sm" type="button" value="Submit Signature" onclick="fun_submit('myCanvas1', 'btnSubmitSign1', 'page1', 'canvas_data1')" />
+                  <input id="btnclear1" class="btn btn-danger btn-sm" type="button" value="Clear" onclick="clearbtn('myCanvas1', 'btnSubmitSign1', 'page1', 'canvas_data1')" />
+                </div>
+                <div id="page1" class="signature-preview"></div>
+              </div>
+
+              <div class="signature-item">
+                <label for="myCanvas2">Signature-BME:</label>
+                <canvas id="myCanvas2" name="sign2" width="300" height="100"></canvas>
+                <input type="hidden" id="canvas_data2" name="canvas_data2" required />
+                <div class="button-group">
+                  <input id="btnSubmitSign2" class="btn btn-secondary btn-sm" type="button" value="Submit Signature" onclick="fun_submit('myCanvas2', 'btnSubmitSign2', 'page2', 'canvas_data2')" />
+                  <input id="btnclear2" class="btn btn-danger btn-sm" type="button" value="Clear" onclick="clearbtn('myCanvas2', 'btnSubmitSign2', 'page2', 'canvas_data2')" />
+                </div>
+                <div id="page2" class="signature-preview"></div>
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button type="button" onclick="form_submit('sbtn')" id="sbtn" class="btn btn-success"><i class="fas fa-shipping-fast"></i> Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script src="{% static 'signature_v2.js' %}"></script>
+  <script>
+    function addRow() {
+      const table = document.querySelector('table tbody')
+      const newRow = table.insertRow(table.rows.length)
+    
+      const cell1 = newRow.insertCell(0)
+      const cell2 = newRow.insertCell(1)
+      const cell3 = newRow.insertCell(2)
+      const cell4 = newRow.insertCell(3)
+      const cell5 = newRow.insertCell(4)
+      const cell6 = newRow.insertCell(5)
+      const cell7 = newRow.insertCell(6)
+      const cell8 = newRow.insertCell(7)
+    
+      let fqty = table.rows.length - 1
+    
+      cell1.textContent = table.rows.length
+      cell2.innerHTML = '<td><input type="text" name="gtp-' + fqty + '-asset_name" class="form-control" required/></td>'
+      cell3.innerHTML = '<td><select class="form-control" name="gtp-' + fqty + '-UOQ" required><option class="form-control" value="" selected disabled>--Choose Item--</option>{% for uoq in uoq %}<option class="form-control" value="{{ uoq.id }}">{{ uoq.name }}</option>{% endfor %}</select></td>'
+      cell4.innerHTML = '<td><input type="number" name="gtp-' + fqty + '-qty" class="form-control"/></td>'
+      cell5.innerHTML = '<td><input type="text" name="gtp-' + fqty + '-asset" class="form-control" required/></td>'
+      cell6.innerHTML = '<td><input type="text" name="gtp-' + fqty + '-serial" class="form-control" required/></td>'
+      cell7.innerHTML = '<td><input type="text" name="gtp-' + fqty + '-reason" class="form-control" required/></td>'
+      cell8.innerHTML = '<td><button type="button" name="button" class="delete-btn"onclick="deleteRow(this)">Delete</button></td>'
+    
+      updateSerialNumbers()
+    }
+    
+    function deleteRow(button) {
+      const row = button.closest('tr')
+      row.remove()
+      updateSerialNumbers()
+    }
+    
+    function updateSerialNumbers() {
+      const rows = document.querySelectorAll('table tbody tr')
+      rows.forEach((row, index) => {
+        const firstColumn = row.cells[0] // Seq_Number
+        const secondColumn = row.cells[1] // Asset_name
+        const thirdColumn = row.cells[2] // UOQ
+        const fourthColumn = row.cells[3] // qty
+        const fifthColumn = row.cells[4] // Asset_Number
+        const sixthColumn = row.cells[5] // Serial_Number
+        const seventhColumn = row.cells[6] // Reson_for_Sendout
+    
+        const asset_name = `gtp-${index}-asset_name`
+        const uoq_name = `gtp-${index}-UOQ`
+        const qty_name = `gtp-${index}-qty`
+        const asset = `gtp-${index}-asset`
+        const serial = `gtp-${index}-serial`
+        const reason = `gtp-${index}-reason`
+    
+        firstColumn.textContent = index + 1 //sl no
+        if (secondColumn.querySelector('input')) 
+        {
+          //item
+          secondColumn.querySelector('input').setAttribute('name', asset_name)
+        }
+        if (thirdColumn.querySelector('select')) 
+        {
+          // qty
+          thirdColumn.querySelector('select').setAttribute('name', uoq_name)
+        }
+        if (fourthColumn.querySelector('input')) 
+        {
+          // poqty
+          fourthColumn.querySelector('input').setAttribute('name', qty_name)
+        }
+        if (fifthColumn.querySelector('input')) 
+        {
+          //unit
+          fifthColumn.querySelector('input').setAttribute('name', asset)
+        }
+        if (sixthColumn.querySelector('input')) 
+        {
+          //unit
+          sixthColumn.querySelector('input').setAttribute('name', serial)
+        }
+        if (seventhColumn.querySelector('input')) 
+        {
+          //unit
+          seventhColumn.querySelector('input').setAttribute('name', reason)
+        }
+        let n = index + 1
+        document.getElementById('rownum').value = n;
+      })
+    }
+  </script>
+{% endblock %}

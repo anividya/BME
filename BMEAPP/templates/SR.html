@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Report - {{ workbook.wo_id }}</title>
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+            body {
+                margin: 0;
+                font-size: 10pt;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10mm;
+            font-size: 10pt;
+            line-height: 1.3;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 80px;
+            max-height: 80px;
+        }
+
+        .institution-info {
+            text-align: right;
+            font-size: 10pt;
+        }
+
+        .institution-name {
+            font-weight: bold;
+            font-size: 14pt;
+        }
+
+        .address {
+            font-size: 9pt;
+            color: #666;
+        }
+
+        .report-heading {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        h1 {
+            font-size: 16pt;
+            margin: 5px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            page-break-inside: avoid;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            font-size: 10pt;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .gap {
+            margin-top: 15px;
+        }
+
+        .signature-label {
+            font-size: 9pt;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .print-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 10pt;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="window.print()" class="print-button no-print">Print Report</button>
+
+    <div class="header">
+        <img src="{{ logo_path }}" alt="Institution Logo" class="logo">
+        <div class="institution-info">
+            <div class="institution-name">{{ institution_name }}</div>
+            <div class="address">{{ address|safe }}</div>
+        </div>
+    </div>
+
+    <div class="report-heading">
+        <h1>Service Report</h1>
+        <div style="text-align: right; font-size: 10pt;">Date: {{ workbook.wo_date|date:"d/m/Y" }}</div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Asset No</th>
+            <td>{{ workbook.asset_id }}</td>
+            <th>Make</th>
+            <td>{{ workbook.make|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Model</th>
+            <td>{{ workbook.model|default:"-" }}</td>
+            <th>Serial No</th>
+            <td>{{ workbook.slno|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Dept</th>
+            <td>{{ workbook.dept|default:"-" }}</td>
+            <th>Reported By</th>
+            <td>{{ workbook.reporter|default:"-" }}</td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th style="width: 50%;">Complaint</th>
+            <th style="width: 50%;">Action Taken</th>
+        </tr>
+        <tr>
+            <td>{{ workbook.description|default:"-" }}</td>
+            <td>{{ workbook.action|default:"-" }}</td>
+        </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table>
+        <tr>
+            <th>Reported Date-Time</th>
+            <th>Attended Date-Time</th>
+            <th>Completed Date-Time</th>
+        </tr>
+        <tr>
+            <td>{{ workbook.wo_date|date:"d/m/Y H:i"|default:"-" }}</td>
+            <td>{{ workbook.wo_attended|date:"d/m/Y H:i"|default:"-" }}</td>
+            <td>{{ workbook.wo_done|date:"d/m/Y H:i"|default:"-" }}</td>
+        </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table>
+        <tr>
+            <th>Parts used</th>
+            <th>Qty</th>
+            <th>Cost</th>
+        </tr>
+        <tr>
+            <td>{{ workbook.parts_description|default:"-" }}</td>
+            <td>-</td>
+            <td>{{ workbook.parts_cost|default:"-" }}</td>
+        </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table>
+        <tr>
+            <th>Tool No</th>
+            <th>Tool Name</th>
+            <th>Calibration Date of Tool</th>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table>
+        <tr>
+            <th style="width: 50%;">User Signature</th>
+            <th style="width: 50%;">BME Signature</th>
+        </tr>
+        <tr>
+            <td style="height: 60px;">
+                {% if workbook.usersign %}
+                    <img src="{{ workbook.usersign.url }}" style="max-height: 50px;">
+                {% endif %}
+                <div class="signature-label">Name & Date</div>
+            </td>
+            <td style="height: 60px;">
+                {% if workbook.eng_sign %}
+                    <img src="{{ workbook.eng_sign.url }}" style="max-height: 50px;">
+                {% endif %}
+                <div class="signature-label">Name & Date</div>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        // Optional: Auto-print
+         //window.onload = () => setTimeout(() => window.print(), 1000);
+    </script>
+</body>
+</html>

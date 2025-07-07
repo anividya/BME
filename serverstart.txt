@@ -1,0 +1,46 @@
+waitress-serve --host=127.0.0.1 --port=8000 BME.wsgi:application
+
+C:\Python312\Scripts\waitress-serve --port=8000 BME.wsgi:application
+
+
+CEDINVAPP
+
+nssm start CEDINVAPP
+
+nssm edit CEDINVAPP
+
+python -m waitress --host=127.0.0.1 --port=8000 serve BME.wsgi:application
+
+waitress-serve --host=127.0.0.1 --port=8000 BME.wsgi:application
+
+
+celery -A BME worker --loglevel=info --pool=solo
+
+celery -A BME beat --loglevel=info
+
+
+python manage.py clear_data
+
+python manage.py import_departments "D:\RDD\CARITHAS\MASTER_EQUIPMENT_LIST_CARITAS.xlsx"
+
+python manage.py import_assets "D:\RDD\CARITHAS\UPDATED\MASTER_EQUIPMENT_LIST_CARITAS_26-06.xlsx"
+
+
+
+D:\RDD\CARITHAS
+
+
+
+https://aneesh.tail25f251.ts.net/api/login/ \
+  -X POST -H "Content-Type: application/json" \
+  -d '{"username":"TOM","password":"staff@123"}'
+
+
+  https://aneesh.tail25f251.ts.net/api/save-token/ \
+  -X POST -H "Content-Type: application/json" \
+  -d '{"user_id":3,"fcm_token":"3b068960c1f321bee8a113ae33b7fc37e6bb771d"}
+
+
+from django.db import connection
+
+with connection.cursor() as cursor:cursor.execute("UPDATE BMEAPP_asset SET pmdue = NULL WHERE pmdue = ''")

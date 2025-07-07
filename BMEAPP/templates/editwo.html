@@ -1,0 +1,203 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content" style="margin: 20px;">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+      <div class="card-header" style="background-color:rgb(242, 243, 243); text-align: center; padding: 20px;">
+        <h1 class="card-title" style="margin-bottom: 5px;color: black;">Edit Workbook</h1>
+      </div>
+      <div class="card-body">
+
+        <!-- Grid 1 -->
+        <div class="grid-container">
+          <div class="form-group">
+            <label>WO ID:</label>
+            <input class="form-control" name="wo_id" value="{{ workbook.wo_id }}" readonly>
+          </div>
+          <div class="form-group">
+            <label>Asset ID:</label>
+            <input class="form-control" name="asset_id" value="{{ workbook.asset_id }}">
+          </div>
+          <div class="form-group">
+            <label>Asset Name:</label>
+            <input class="form-control" name="asset_name" value="{{ workbook.asset_name }}">
+          </div>
+          <div class="form-group">
+            <label>Asset Type:</label>
+            <input class="form-control" name="asset_type" value="{{ workbook.asset_type }}">
+          </div>
+        </div>
+
+        <!-- Grid 2 -->
+        <div class="grid-container">
+          <div class="form-group">
+            <label>Serial No:</label>
+            <input class="form-control" name="slno" value="{{ workbook.slno }}">
+          </div>
+          <div class="form-group">
+            <label>Make:</label>
+            <input class="form-control" name="make" value="{{ workbook.make }}">
+          </div>
+          <div class="form-group">
+            <label>Model:</label>
+            <input class="form-control" name="model" value="{{ workbook.model }}">
+          </div>
+          <div class="form-group">
+            <label>Department:</label>
+            <input class="form-control" name="dept" value="{{ workbook.dept }}">
+          </div>
+        </div>
+
+        <!-- Grid 3 -->
+        <div class="grid-container">
+          <div class="form-group">
+            <label>Reporting Department:</label>
+            <input class="form-control" name="reportingDept" value="{{ workbook.reportingDept }}">
+          </div>
+          <div class="form-group">
+            <label>WO Type:</label>
+            <input class="form-control" name="wotype" value="{{ workbook.wotype }}">
+          </div>
+          <div class="form-group">
+            <label>Status:</label>
+            <select class="form-control" name="status">
+              <option value="CLOSE" {% if workbook.status == 'CLOSE' %}selected{% endif %}>CLOSE</option>
+              <option value="REWORK" {% if workbook.status == 'REWORK' %}selected{% endif %}>REWORK</option>
+              <option value="RELEASED">RELEASED</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Reporter:</label>
+            <input class="form-control" name="reporter" value="{{ workbook.reporter }}">
+          </div>
+        </div>
+
+        <!-- Grid 4 -->
+        <div class="grid-container">
+          <div class="form-group">
+            <label>Login ID:</label>
+            <input class="form-control" name="loginid" value="{{ workbook.loginid }}">
+          </div>
+          <div class="form-group">
+            <label>Engineer ID:</label>
+            <input class="form-control" name="eng_id" value="{{ workbook.eng_id }}">
+          </div>
+          <div class="form-group">
+            <label>WO Approver:</label>
+            <input class="form-control" name="woapprover" value="{{ workbook.woapprover }}">
+          </div>
+          <div class="form-group">
+            <label>Parts Cost:</label>
+            <input class="form-control" name="parts_cost" type="number" step="0.01" value="{{ workbook.parts_cost }}">
+          </div>
+        </div>
+
+        <!-- Grid 5: DateTimes -->
+        <div class="grid-container">
+          <div class="form-group">
+            <label>WO Date:</label>
+            <input class="form-control" type="datetime-local" name="wo_date" value="{{ workbook.wo_date|date:'Y-m-d\\TH:i' }}">
+          </div>
+          <div class="form-group">
+            <label>WO Attended:</label>
+            <input class="form-control" type="datetime-local" name="wo_attended" value="{{ workbook.wo_attended|date:'Y-m-d\\TH:i' }}">
+          </div>
+          <div class="form-group">
+            <label>WO Done:</label>
+            <input class="form-control" type="datetime-local" name="wo_done" value="{{ workbook.wo_done|date:'Y-m-d\\TH:i' }}">
+          </div>
+          <div class="form-group">
+            <label>Downtime (min):</label>
+            <input class="form-control" name="downtime" type="number" value="{{ workbook.downtime }}">
+          </div>
+        </div>
+
+        <!-- Grid 6: Textareas -->
+        <div class="grid-container">
+          <div class="form-group" style="grid-column: span 2;">
+            <label>Description:</label>
+            <textarea class="form-control" name="description" rows="3">{{ workbook.description }}</textarea>
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label>Action:</label>
+            <textarea class="form-control" name="action" rows="3">{{ workbook.action }}</textarea>
+          </div>
+        </div>
+
+        <!-- Grid 7 -->
+        <div class="grid-container">
+          <div class="form-group" style="grid-column: span 2;">
+            <label>Parts Description:</label>
+            <textarea class="form-control" name="parts_description" rows="3">{{ workbook.parts_description }}</textarea>
+          </div>
+          <div class="form-group">
+            <label>RSN DTime (min):</label>
+            <input class="form-control" name="rsndtime" type="number" value="{{ workbook.rsndtime }}">
+          </div>
+        </div>
+
+        <!-- Grid 8: Files -->
+        <div class="grid-container">
+          <div class="form-group">
+            <label>User Sign:</label>
+            {% if workbook.usersign %}
+              <a href="{{ workbook.usersign.url }}" target="_blank">View Existing</a><br>
+              <input type="checkbox" name="delete_usersign"> Delete<br>
+            {% endif %}
+            <input class="form-control" type="file" name="usersign">
+          </div>
+          <div class="form-group">
+            <label>Engineer Sign:</label>
+            {% if workbook.eng_sign %}
+              <a href="{{ workbook.eng_sign.url }}" target="_blank">View Existing</a><br>
+              <input type="checkbox" name="delete_eng_sign"> Delete<br>
+            {% endif %}
+            <input class="form-control" type="file" name="eng_sign">
+          </div>
+          <div class="form-group">
+            <label>Service Report:</label>
+            {% if workbook.SR_report %}
+              <a href="{{ workbook.SR_report.url }}" target="_blank">View Existing</a><br>
+              <input type="checkbox" name="delete_SR_report"> Delete<br>
+            {% endif %}
+            <input class="form-control" type="file" name="SR_report">
+          </div>
+          <div class="form-group">
+            <label>Invoice:</label>
+            {% if workbook.invoice %}
+              <a href="{{ workbook.invoice.url }}" target="_blank">View Existing</a><br>
+              <input type="checkbox" name="delete_invoice"> Delete<br>
+            {% endif %}
+            <input class="form-control" type="file" name="invoice">
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group text-center mt-4">
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+          <a href="{% url 'index' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+</style>
+{% endblock %}

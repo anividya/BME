@@ -1,0 +1,312 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<section style="padding: 10px;">
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="assetTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab">Asset Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab">Asset History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="install-tab" data-toggle="tab" href="#install" role="tab">Installation Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="purchase-tab" data-toggle="tab" href="#purchase" role="tab">Purchase Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="training-tab" data-toggle="tab" href="#training" role="tab">Training Docs</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body tab-content" id="assetTabsContent">
+            <!-- Asset Info -->
+            <div class="tab-pane fade show active" id="info" role="tabpanel">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label>Asset ID</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.assetid }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Asset Name</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.assetname }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Asset Make</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.asset_make }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Asset Model</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.asset_model }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Serial Number</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.slno }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Department</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.dept }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>PM Status</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.pmstat }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Cal. Status</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.calstat }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Warranty</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.warranty }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>AMC/CMC Status</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.amc_cmc }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>PPM Done Date</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.pmdone }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>PPM Due Date</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.pmdue }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>PPM Duration</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.pmdur }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>CAL Done Date</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.caldone }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>CAL Due Date</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.caldue }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>CAL Duration</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.caldur }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Warranty Start</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.wrstart }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Warranty End</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.wrend }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>AMC/CMC Start</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.mcstart }}" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>AMC/CMC End</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ asset.mcend }}" readonly>
+                    </div>
+                </div>
+            </div>
+            <!-- Asset History -->
+            <div class="tab-pane fade" id="history" role="tabpanel">
+                <div class="grid-container">
+                    <div class="entries">
+                        Show
+                        <select id="entriesCount" onchange="changeEntriesPerPage()">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select> entries
+                        <div class="d-flex justify-content-end mb-2">
+                            <button id="downloadBtn" class="btn btn-primary">Download as Excel</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="assetTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0)">
+                                        Work_ID<span class="sort-arrow" id="sort-arrow-0">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(1)">
+                                        Asset Number<span class="sort-arrow" id="sort-arrow-1">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(2)">
+                                        Equipment<span class="sort-arrow" id="sort-arrow-2">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(3)">
+                                        Model<span class="sort-arrow" id="sort-arrow-3">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(4)">
+                                        Description<span class="sort-arrow" id="sort-arrow-4">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(5)">
+                                        Department<span class="sort-arrow" id="sort-arrow-5">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(6)">
+                                        Work Requested Date<span class="sort-arrow" id="sort-arrow-6">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(7)">
+                                        Requested By<span class="sort-arrow" id="sort-arrow-7">&#8597;</span>
+                                    </th>
+                                    <th onclick="sortTable(8)">
+                                        Status<span class="sort-arrow" id="sort-arrow-8">&#8597;</span>
+                                    </th>
+                                    <th>__Action__</th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search WO Number" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Equipment" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Make" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Model" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Serial Number" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Dept" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search PPM Due" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Warranty Due" onkeyup="filterTable()" />
+                                    </th>
+                                    <th>
+                                        <input type="text" class="search-box" placeholder="Search Status" onkeyup="filterTable()" />
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="assetViewTableBody">
+                            </tbody>
+                        </table>
+                        <div id="tableInfo">Showing 0 to 0 of 0 entries</div>
+                        <ul class="pagination" id="pagination"></ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Installation Documents -->
+            <div class="tab-pane fade" id="install" role="tabpanel">
+                <div class="grid-container">
+                    {% for doc in installation_docs %}
+                        <div class="document-card">
+                            <h4>{{ doc.document.name }}</h4>
+                            <a href="{{ doc.document.url }}" target="_blank">View Document</a>
+                        </div>
+                    {% empty %}
+                        <p>No documents available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Purchase Documents -->
+            <div class="tab-pane fade" id="purchase" role="tabpanel">
+                <div class="grid-container">
+                    {% for doc in purchase_docs %}
+                        <div class="document-card">
+                            <h4>{{ doc.document.name }}</h4>
+                            <a href="{{ doc.document.url }}" target="_blank">View Document</a>
+                        </div>
+                    {% empty %}
+                        <p>No documents available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Training Documents -->
+            <div class="tab-pane fade" id="training" role="tabpanel">
+                <div class="grid-container">
+                    {% for doc in training_docs %}
+                        <div class="document-card">
+                            <h4>{{ doc.document.name }}</h4>
+                            <a href="{{ doc.document.url }}" target="_blank">View Document</a>
+                        </div>
+                    {% empty %}
+                        <p>No documents available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% for work in worklist %}
+{% include 'view_WOAsset.html' %}
+{% endfor %}
+<script>
+    // Data passed from Django context
+    const tableData = [
+        {% for work in worklist %}
+        {
+            Work_ID: '{{ work.wo_id }}',
+            Asset_Number: '{{ work.asset_id }}',
+            Equipment: '{{ work.asset_name }}',
+            model: '{{ work.model }}',
+            Description: '{{ work.description }}',
+            Department: '{{ work.dept }}',
+            Work_Date: '{{ work.wo_date }}',
+            Requested_By: '{{ work.reporter }}',
+            Status: '{{ work.status }}',
+            Action: '{{work.counter}}'
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    const UserGroup = "{{ user_group }}";
+</script>
+<script src="{% static 'assetViewTable.js' %}"></script>
+<script>
+    function woid(workid) {
+        $.ajax({
+            url: '/get-documents/',
+            data: {
+                'work_id': workid
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    let html = '<ul>';
+                    response.documents.forEach(function(doc) {
+                        html += `<li><a href="${doc.url}" target="_blank">${doc.asset_id}</a></li>`;
+                    });
+                    html += '</ul>';
+                    $('#docList').html(html);
+
+                } else {
+                    $('#docList').html('<p>Error: ' + response.message + '</p>');
+
+                }
+            }
+        });
+        var idField = document.getElementById('wo_id');
+        idField.value = workid;
+        document.getElementById('woLink').href = "/service-report/" + workid + "/";
+        const now = new Date();
+
+        // Format year, month, day
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(now.getDate()).padStart(2, '0');
+
+        // Format hours and minutes
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        // Combine into the desired format
+        const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+        var dateField = document.getElementById('wo_attended');
+        dateField.value = formattedDateTime;
+    }
+</script>
+
+{% endblock content %}

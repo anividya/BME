@@ -1,0 +1,9 @@
+1 . PPM Generation Automatically at the begining of a month 
+2 . CAL Generation Automatically at the begining of a month 
+3 . PPM & CAL Page Design with group work order option.
+4 . Update PPM & CAL Pending Number in Dashboard.
+5 . Pi Chart for BIOMED Staff PPM relesed this month v/s PPM Completed
+6 . Total PPM Due for the Staff
+7 . Pi Chart for BIOMED Staff CAL relesed this month v/s CAL Completed
+8 . Total CAL Due for the Staff
+9 . Pi Chart for BIOMED Staff CM relesed v/s PPM Completed

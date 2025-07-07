@@ -1,0 +1,150 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+<div class="styled-area">
+    <section style="padding: 10px;">
+        <div class="card">
+            <div class="card-header">
+                <h1>Monthly Maintenance Report</h1>
+            </div>
+            <div class="card-body" id="parant">
+                <form method="get">
+                    {{ form.as_p }}
+                    <button type="submit">Generate</button>
+                </form>
+    
+                {% if labels %}
+                    <h2>Graphical Summary</h2>
+                    <canvas id="reportChart" width="700" height="300"></canvas>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                        const ctx = document.getElementById('reportChart').getContext('2d');
+                        const data = {
+                            labels: {{ labels|safe }},
+                            datasets: [
+                                {
+                                    label: 'Avg Downtime (min)',
+                                    data: {{ avg_downtime_data|safe }},
+                                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Avg Response Time (min)',
+                                    data: {{ avg_rsndtime_data|safe }},
+                                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        };
+    
+                        const config = {
+                            type: 'bar',
+                            data: data,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Average Downtime and Response Time Per Month'
+                                    },
+                                    legend: {
+                                        position: 'top'
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Minutes'
+                                        }
+                                    }
+                                }
+                            }
+                        };
+    
+                        new Chart(ctx, config);
+                    </script>
+    
+                    <h2>Consolidated Monthly Report</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Avg Downtime (min)</th>
+                                <th>Avg Response Time (min)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for month, downtime, rsndtime in zipped_data %}
+                                <tr>
+                                    <td>{{ month }}</td>
+                                    <td>{{ downtime }}</td>
+                                    <td>{{ rsndtime }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Previous template content remains the same until the script part -->
+<button class="btn btn-primary" style="margin-left: 5px;" onclick="printStyledArea()">Print</button>
+<script>
+    function printStyledArea() {
+        // Check if chart exists
+        const chartCanvas = document.getElementById('reportChart');
+        if (!chartCanvas) {
+            alert('Nothing to print!');
+            return;
+        }
+
+        // Create clone of styled area
+        const styledArea = document.querySelector('.styled-area').cloneNode(true);
+        const cloneCanvas = styledArea.querySelector('#reportChart');
+        
+        // Replace canvas with image
+        const img = new Image();
+        img.src = chartCanvas.toDataURL('image/png');
+        img.style.maxWidth = '100%';
+        cloneCanvas.parentNode.replaceChild(img, cloneCanvas);
+
+        // Open print window
+        const printWindow = window.open('', '_blank');
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Report</title>
+                    <style>
+                        /* Add your necessary styles here */
+                        body { font-family: Arial; padding: 20px; }
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        .card { background: white; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                        .styled-area * { box-sizing: border-box; }
+                    </style>
+                </head>
+                <body>
+                    ${styledArea.innerHTML}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+
+        // Trigger print after content loads
+        printWindow.onload = function() {
+            printWindow.print();
+            printWindow.onafterprint = function() {
+                printWindow.close();
+            };
+        };
+    }
+</script>
+    
+{% endblock content %}

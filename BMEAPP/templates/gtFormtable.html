@@ -1,0 +1,53 @@
+<div class="table-responsive-sm">
+  <table class="table table-bordered">
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Item Name</th>
+          <th>Unit of Qty</th>
+          <th>Qty</th>
+          <th>Asset_Number</th>
+          <th>Serial_Number</th>
+          <th>Reason for SENT-OUT</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in formset %}
+          <tr>
+            <td>1</td>
+            <td>
+              <input type="text" name="gtp-0-asset_name" class="form-control" required/>
+            </td>
+            <td>
+              <select class="item form-control" name="gtp-0-UOQ" required>
+                <option class="form-control" value="" selected disabled>--Choose Item--</option>
+                {% for uoq in uoq %}
+                  <option class="form-control" value="{{ uoq.id }}">{{ uoq.name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <td>
+              <input type="number" name="gtp-0-qty" class="form-control"/>
+            </td>
+            <td>
+              <input type="text" name="gtp-0-asset" class="form-control" required/>
+            </td>
+            <td>
+              <input type="text" name="gtp-0-serial" class="form-control" required/>
+            </td>
+            <td>
+              <input type="text" name="gtp-0-reason" class="form-control" required/>
+            </td>
+            <td>
+              <button type="button" name="button" class="delete-btn" onclick="deleteRow(this)">Delete</button>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </table>
+  <button type="button" class="btn btn-info" onclick="addRow()">Add Row</button>
+</div>
+

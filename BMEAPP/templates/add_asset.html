@@ -1,0 +1,145 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content" style="margin: 20px;">
+    <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <div class="card-header" style="background-color:rgb(242, 243, 243); color: white; text-align: center; padding: 20px;">
+          <h1 class="card-title" style="margin-bottom: 5px;color: black;">Create New Asset</h1>
+        </div>
+        <div class="card-body">
+          <div class="grid-container">
+            <!-- Row 1 -->
+            <div class="form-group">
+              <label>Asset Type:<span style="color: red;">*</span></label>
+              <select class="form-control select2" id="assettype" name="asset_type" required>
+                <option class="form-control" value="" selected disabled>--Choose Item--</option>
+                {% for assettype in assettypes %}
+                  <option value="{{ assettype.id }}">{{ assettype.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Equipment:<span style="color: red;">*</span></label>
+              <input class="form-control" id="equipment" type="text" name="assetname" required/>
+            </div>
+            <div class="form-group">
+              <label>Serial Number:<span style="color: red;">*</span></label>
+              <input class="form-control" id="slno" type="text" name="slno" required/>
+            </div>
+            <div class="form-group">
+              <label>Department:<span style="color: red;">*</span></label>
+              <!--<input class="form-control" id="dept" name="dept" required/>-->
+              <select class="form-control select2" id="dept" name="dept" required>
+                <option class="form-control" value="" selected disabled>--Choose Item--</option>
+                {% for dept in depts %}
+                  <option value="{{ dept.LOCATION }}">{{ dept.LOCATION }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="grid-container">
+            <!-- Row 2 -->
+            <div class="form-group">
+              <label>Make:<span style="color: red;">*</span></label>
+              <input class="form-control" id="make" type="text" name="asset_make" required/>
+            </div>
+            <div class="form-group">
+              <label>Supplier:<span style="color: red;">*</span></label>
+              <input class="form-control" id="supp" name="supplier" required/>
+            </div>
+            <div class="form-group">
+              <label>Model:<span style="color: red;">*</span></label>
+              <input class="form-control" id="model" type="text" name="asset_model" required/>
+            </div>
+            <div class="form-group">
+              <label>Status:<span style="color: red;">*</span></label>
+              <select class="form-control" id="status" name="stat" required>
+                  {% for status in statuses %}
+                      <option value="{{ status.id }}">{{ status.name }}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="grid-container">
+            <!-- Row 3 -->
+            <div class="form-group">
+              <label>PPM Done Date:<span style="color: red;">*</span></label>
+              <input class="form-control" id="pmdone" type="date" name="pmdone" required />
+            </div>
+            <!--<div class="form-group">
+              <label>PPM Due Date:<span style="color: red;">*</span></label>
+              <input class="form-control" id="pmdue" type="date" name="pmdue" required />
+            </div>-->
+            <div class="form-group">
+              <label>PPM Duration (months):<span style="color: red;">*</span></label>
+              <input class="form-control" id="ppm_dur" type="number" name="pmdur" required />
+            </div>
+            <div class="form-group">
+              <label>Calibration Done Date:<span style="color: red;">*</span></label>
+              <input class="form-control" id="cal_done" type="date" name="caldone" required />
+            </div>
+          </div>
+          <div class="grid-container">
+            <!-- Row 4 -->
+            <!--<div class="form-group">
+              <label>Calibration Due Date:<span style="color: red;">*</span></label>
+              <input class="form-control" id="cal_due" type="date" name="caldue" required />
+            </div>-->
+            <div class="form-group">
+              <label>Cal Duration (months):<span style="color: red;">*</span></label>
+              <input class="form-control" id="cal_dur" type="number" name="caldur" required />
+            </div>
+            <div class="form-group">
+              <label>Warranty Start Date:<span style="color: red;">*</span></label>
+              <input class="form-control" id="wrstart" type="date" name="wrstart" required />
+            </div>
+            <div class="form-group">
+              <label>Warranty Due Date:<span style="color: red;">*</span></label>
+              <input class="form-control" id="wrend" type="date" name="wrend" required />
+            </div>
+          </div>
+          <div class="grid-container">
+            <!-- Row 5 -->
+            <div class="form-group">
+              <label>Upload Installation/Delivery Doc:</label>
+              <input class="form-control" type="file" name="Installation_Doc" multiple>
+            </div>
+            <div class="form-group">
+              <label>Upload Training Report:</label>
+              <input class="form-control" type="file" name="Trainig_Doc" multiple>
+            </div>
+            <div class="form-group">
+              <label>Upload Purchase Documents:</label>
+              <input class="form-control" type="file" name="Purchase_Doc" multiple>
+            </div>
+          </div>
+          <div class="form-group text-center">
+            <button type="submit" id="sbtn" class="btn btn-success">
+              <i class="fas fa-database"></i> Submit
+            </button>
+            <button type="button" class="btn btn-warning">
+              <i class="fas fa-close"></i> <a href="#" style="color: inherit; text-decoration: none;">Back</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+  </style>
+
+{% endblock %}

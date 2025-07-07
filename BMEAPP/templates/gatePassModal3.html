@@ -1,0 +1,129 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="modal fade" id="gatePassViewModal3" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%;">
+    <div class="modal-content">
+      <div class="container">
+        <div class="modal-header">
+          <h5 class="modal-title">Gate Pass Quick View</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearbtn()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <!-- First Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="gatePassNumber">Gate Pass Number</label>
+                  <input class="form-control" id="gatePassNumber3" name="gate_pass_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="item">Item</label>
+                  <input class="form-control" id="item3" name="item" value="" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="sendOutDate">Reported Date Time</label>
+                  <input class="form-control" type="datetime" id="sendOutDate3" name="send_out_date" readonly/>
+                </div>
+              </div>
+
+              <!-- Second Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="assetNumber">Asset Number</label>
+                  <input class="form-control" id="assetNumber3" name="asset_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="serialNumber">Serial Number</label>
+                  <input class="form-control" id="serialNumber3" name="serial_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="collectedBy">Collected By</label>
+                  <input class="form-control" id="collectedBy3" name="collected_by" readonly />
+                </div>
+              </div>
+
+              <!-- Third Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="sendTo">Send To</label>
+                  <input class="form-control" id="sendTo3" name="send_to" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="sendBy">Send By</label>
+                  <input class="form-control" id="sendBy3" name="send_by" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="contactNumber">Contact Number</label>
+                  <input class="form-control" id="contactNumber3" name="contact_number" readonly />
+                </div>
+              </div>
+            </div>
+            <!-- Button Row -->
+            <div class="row mt-3">
+                <form action="gtSendout" method="post" autocomplete="off" enctype="multipart/form-data" class="w-100">
+                {% csrf_token %}
+                    <div id="bottomRow" class="d-flex justify-content-between align-items-center">
+                      <input class="form-control" type="hidden" id="gtPassid" name="pass_id" readonly />
+                        <div class="form-group">
+                          <label for="sendOutDate">Send out Date</label>
+                          <input class="form-control" type="datetime-local" onchange="formDate()" id="formDate3" name="out_date" required/>
+                          <div id="warningMessage" style="color: red; display: none;">Please select a date in the present or past!</div>
+                        </div>
+                        <!-- Left-aligned button -->
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="goToGatepass()">Print Gate Pass</button>
+                        </div>
+                        <!-- Right-aligned button -->
+                        <div>
+                            <button type="submit" class="btn btn-success" onclick="formDate()">SEND</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goToGatepass() {
+    // Get the value from the input field
+    const passId = document.getElementById('gatePassNumber').value
+  
+    // Check if a value is entered
+    if (passId) {
+      // Construct the URL
+      const url = `/gatepass_print/${encodeURIComponent(passId)}/`
+  
+      // Open the URL in a new tab
+      window.open(url, '_blank')
+    } else {
+      // Alert user to enter a value if the field is empty
+      alert('Please enter a Gate Pass Number.')
+    }
+  }
+
+  function formDate(){
+
+    const passId = document.getElementById('gatePassNumber').value;
+    document.getElementById('gtPassid').value = document.getElementById('gatePassNumber3').value;
+    console.log(document.getElementById('formDate3').value);
+    console.log(document.getElementById('gtPassid').value);
+
+    var selectedDate = new Date(document.getElementById("formDate3").value);
+    var currentDate = new Date();
+    
+    // Reset the warning message and input field
+    document.getElementById("warningMessage").style.display = "none";
+    
+    // Check if the selected date is in the future
+    if (selectedDate > currentDate) {
+      // Clear the input field and display warning
+      document.getElementById("formDate3").value = "";
+      document.getElementById("warningMessage").style.display = "block";
+    }
+  }
+</script>

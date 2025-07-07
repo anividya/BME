@@ -1,0 +1,161 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Basic Information -->
+    <div class="col-md-6">
+      <div class="card mb-3">
+        <div class="card-header bg-info text-white">Basic Information</div>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Asset ID:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.assetid }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Asset Name:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.assetname }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Make:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.asset_make }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Model:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.asset_model }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Serial No:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.slno }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Department:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.dept }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <strong>Asset Type:</strong>
+            </div>
+            <div class="col-sm-8">{{ asset.asset_type }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maintenance Information -->
+    <div class="col-md-6">
+      <div class="card mb-3">
+        <div class="card-header bg-info text-white">Maintenance Information</div>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>PM Status:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.pmstat }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>Last PM Date:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.pmdone }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>Next PM Due:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.pmdue }}</div>
+          </div>
+
+          <hr />
+
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>Calibration Status:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.calstat }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>Last Cal Date:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.caldone }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>Next Cal Due:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.caldue }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-5">
+              <strong>Cal Vendor:</strong>
+            </div>
+            <div class="col-sm-7">{{ asset.calvendor }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warranty & Maintenance Contract -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-info text-white">Warranty & Maintenance Contract</div>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-2">
+              <strong>Warranty:</strong>
+            </div>
+            <div class="col-sm-10">{{ asset.warranty }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-2">
+              <strong>Warranty Start:</strong>
+            </div>
+            <div class="col-sm-4">{{ asset.wrstart }}</div>
+            <div class="col-sm-2">
+              <strong>Warranty End:</strong>
+            </div>
+            <div class="col-sm-4">{{ asset.wrend }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-2">
+              <strong>AMC/CMC:</strong>
+            </div>
+            <div class="col-sm-10">{{ asset.amc_cmc }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm-2">
+              <strong>Contract Start:</strong>
+            </div>
+            <div class="col-sm-4">{{ asset.mcstart }}</div>
+            <div class="col-sm-2">
+              <strong>Contract End:</strong>
+            </div>
+            <div class="col-sm-4">{{ asset.mcend }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- container-fluid -->
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-auto">
+      <a href="{% url 'asset_detail' asset.assetid %}" class="btn btn-success" style="margin-top: 4%;">Detailed View</a>
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-top: 5%;">Close</button>
+    </div>
+  </div>
+</div>

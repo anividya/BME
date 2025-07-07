@@ -1,0 +1,113 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="modal fade" id="pr_ModalAdmin" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 70%;">
+    <div class="modal-content">
+      <div class="container">
+        <div class="modal-header">
+          <h5 class="modal-title">Purchase Request</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearbtn()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <form id="submitForm" method="post" autocomplete="off" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <!-- First Column -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="PR_No">Purchase Request {{ user_group }}</label>
+                    <input class="form-control" id="PR_No" name="PR_No" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Asset_Name">Item</label>
+                    <input class="form-control" id="Asset_Name" name="Asset_Name" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Requested_Date">Requested Date</label>
+                    <input class="form-control" type="text" id="Requested_Date" name="Requested_Date" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Action">Action(Approve/Reject)</label>
+                    <select class="item form-control" id="statSelection" name="Action" required>
+                      <option class="form-control" value="" selected disabled>--Choose Item--</option>
+                      <option class="form-control" value="AdminApproved">Approved</option>
+                      <option class="form-control" value="AdminRejected">Rejected</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Second Column -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="Need">Reason for Purchase</label>
+                    <textarea class="form-control" rows="3" id="Need" name="Need" readonly></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="Features">Feature Required</label>
+                    <textarea class="form-control" id="Features" rows="3" name="Features" readonly></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="AdminComment">Admin Comment</label>
+                    <textarea class="form-control" rows="3" id="AdminComment" name="AdminComment" required></textarea>
+                  </div>
+                </div>
+                <!-- Third Column -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="Department">Department</label>
+                    <input class="form-control" id="Department" name="Department" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Status">Status</label>
+                    <input class="form-control" id="Status" name="Status" readonly />
+                  </div>
+                  <div class="form-group">
+                    <div class="col-auto">
+                      <div data-role="page">
+                        <div id="page" data-role="content"></div>
+                        <input type="hidden" id="canvas_data" name="admin_sign" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group" id="signatureSection" class="col-auto">
+                    <canvas style="background-color: bisque;" id="myCanvas" width="300" height="95" name="sign"></canvas>
+                    <input style="margin-top: 5px;" id="btnSubmitSign" type="button" data-inline="true" data-mini="true" data-theme="b" value="Submit Sign" onclick="fun_submit()" />
+                    <input style="margin-top: 5px;" id="btnclear" type="button" data-inline="true" data-mini="true" data-theme="b" value="Clear" onclick="clearbtn()" />
+                  </div>
+                </div>
+              </div>
+              <!-- Button Row -->
+              <div id="bottomRow" class="row mt-3">
+                <input id="gtID" type="hidden" name="pass_id" readonly />
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-primary" onclick="prSubmit()">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'signature.js' %}"></script>
+<script>
+  function prSubmit() {
+    // Get the value from the input field
+    const prId = document.getElementById('PR_No').value
+  
+    // Check if a value is entered
+    if (prId) {
+      console.log("form");
+      const BASE_URL = "{% url 'pr_adminapr' PR_No='pr_id' %}";
+      const form = document.getElementById('submitForm');
+      // Replace the placeholder with the actual prId (URL-encoded)
+      const actionUrl = BASE_URL.replace('pr_id', encodeURIComponent(prId));
+      form.action = actionUrl;
+    } else {
+      // Alert user to enter a value if the field is empty
+      alert('Error')
+    }
+  }
+</script>

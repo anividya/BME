@@ -1,0 +1,120 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="modal fade" id="gatePassViewModal2" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%;">
+    <div class="modal-content">
+      <div class="container">
+        <div class="modal-header">
+          <h5 class="modal-title">Gate Pass Quick View</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearbtn()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <!-- First Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="gatePassNumber">Gate Pass Number</label>
+                  <input class="form-control" id="gatePassNumber2" name="gate_pass_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="item">Item2</label>
+                  <input class="form-control" id="item2" name="item" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="sendOutDate">Send out Date</label>
+                  <input class="form-control" type="datetime-local" id="sendOutDate2" name="send_out_date" readonly />
+                </div>
+              </div>
+
+              <!-- Second Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="assetNumber">Asset Number</label>
+                  <input class="form-control" id="assetNumber2" name="asset_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="serialNumber">Serial Number</label>
+                  <input class="form-control" id="serialNumber2" name="serial_number" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="collectedBy">Collected By</label>
+                  <input class="form-control" id="collectedBy2" name="collected_by" readonly />
+                </div>
+              </div>
+
+              <!-- Third Column -->
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="sendTo">Send To</label>
+                  <input class="form-control" id="sendTo2" name="send_to" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="sendBy">Send By</label>
+                  <input class="form-control" id="sendBy2" name="send_by" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="contactNumber">Contact Number</label>
+                  <input class="form-control" id="contactNumber2" name="contact_number" readonly />
+                </div>
+              </div>
+            </div>
+            <!-- Button Row -->
+            <form action="gatepassAdmin" method="post" autocomplete="off" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div id="bottomRow" class="row mt-3">
+                <input type="hidden" id="pass_id" name="pass_id" readonly />
+                <div class="col-md-4">
+                  <select class="item form-control" id="statSelection" name="status" required>
+                    <option class="form-control" value="" selected disabled>--Choose Item--</option>
+                    <option class="form-control" value="Approved">Approved</option>
+                    <option class="form-control" value="Rejected">Rejected</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="col-auto">
+                    <div data-role="page">
+                      <div id="page"  data-role="content"></div>
+                      <input type="hidden" id="canvas_data" name="admin_sign" required />
+                    </div>
+                  </div>
+                </div>
+                <div id="signatureSection" class="col-auto">
+                  <canvas style="background-color: bisque;" id="myCanvas" width="200" height="80" name="sign"></canvas>
+                  <input style="margin-top: 5px;" id="btnSubmitSign" type="button" data-inline="true" data-mini="true" data-theme="b" value="Submit Sign" onclick="fun_submit()" />
+                  <input style="margin-top: 5px;" id="btnclear" type="button" data-inline="true" data-mini="true" data-theme="b" value="Clear" onclick="clearbtn()" />
+                </div>
+
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary" onclick="goToGatepass()">Print Gate Pass</button>
+                  <button style="margin-top: 10px;" type="submit" id="sbtn" class="btn btn-success">Approve</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goToGatepass() {
+    // Get the value from the input field
+    const passId = document.getElementById('gatePassNumber2').value
+  
+    // Check if a value is entered
+    if (passId) {
+      // Construct the URL
+      const url = `/gatepass_print/${encodeURIComponent(passId)}/`
+  
+      // Open the URL in a new tab
+      window.open(url, '_blank')
+    } else {
+      // Alert user to enter a value if the field is empty
+      alert('Please enter a Gate Pass Number.')
+    }
+  }
+</script>
+<script src="{% static 'signature.js' %}"></script>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatepass Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .content {
+            width: 21cm;  /* A4 size width */
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+        .date {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .signature {
+            text-align: center;
+            width: 30%; /* Adjust based on layout */
+        }
+        
+        .signature-box {
+            border: 1px solid #000; /* Add a solid black border */
+            padding: 10px; /* Add some spacing inside the box */
+            margin-top: 10px; /* Spacing between heading and box */
+            height: 100px; /* Adjust the height as needed */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .signature-box img {
+            max-height: 100%; /* Ensure the image fits within the box */
+            max-width: 100%;
+        }
+        
+        .note {
+            font-style: italic; /* Style for the "Signature not Available" message */
+            color: #666;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>GATEPASS</h1>
+        <div class="date">{{ first_gatepass.out_date|date:"Y-m-d" }}</div>
+
+        <!-- First Table -->
+        <table>
+            <tr>
+                <th>GTP No</th>
+                <td>{{ first_gatepass.pass_id }}</td>
+                <th>Collected by</th>
+                <td>{{ first_gatepass.collector_name }}</td>
+            </tr>
+            <tr>
+                <th>Contact Number</th>
+                <td>{{ first_gatepass.contact_num }}</td>
+                <th>Send To</th>
+                <td>{{ first_gatepass.send_to }}</td>
+            </tr>
+        </table>
+
+        <!-- Second Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset Name</th>
+                    <th>Asset</th>
+                    <th>Serial</th>
+                    <th>UoQ</th>
+                    <th>Qty</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gatepass in gatepasses %}
+                <tr>
+                    <td>{{ gatepass.asset_name }}</td>
+                    <td>{{ gatepass.asset }}</td>
+                    <td>{{ gatepass.serial }}</td>
+                    <td>{{ gatepass.uoq }}</td>
+                    <td>{{ gatepass.qty }}</td>
+                    <td>{{ gatepass.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Signatures Section -->
+        <div class="signature-section">
+            <div class="signature">
+                <h4>Collected By</h4> <!-- Heading for the collector's signature -->
+                <div class="signature-box">
+                    {% if first_gatepass.collector_sign %}
+                        <img src="{{ first_gatepass.collector_sign.url }}" alt="Collector's Signature">
+                    {% else %}
+                        <p class="note">Signature not Available</p>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div class="signature">
+                <h4>BME Sign</h4> <!-- Heading for the BME's signature -->
+                <div class="signature-box">
+                    {% if first_gatepass.bme_sign %}
+                        <img src="{{ first_gatepass.bme_sign.url }}" alt="BME's Signature">
+                    {% else %}
+                        <p class="note">Signature not Available</p>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div class="signature">
+                <h4>Admin Sign</h4> <!-- Heading for the admin's signature -->
+                <div class="signature-box">
+                    {% if first_gatepass.admin_sign %}
+                        <img src="{{ first_gatepass.admin_sign.url }}" alt="Admin's Signature">
+                    {% else %}
+                        <p class="note">__Signature__</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</body>
+</html>

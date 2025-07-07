@@ -1,0 +1,198 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="Cardbox">
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">{{PPM_DUE}}</div>
+                <div class="name">PPM Due</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo"><ion-icon class="las la-tools"></ion-icon></div>
+            </div>
+        </div>
+    </a>
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">{{CAL_DUE}}</div>
+                <div class="name">CAL Due</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo"><ion-icon class="las la-tools"></ion-icon></div>
+            </div>
+        </div>
+    </a>
+    <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">1</div>
+                <div class="name">AMC/CMC Due</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo"><ion-icon class="las la-tools"></ion-icon></div>
+            </div>
+        </div>
+    </a>
+    <a href="{% url 'add_asset' %}" class="card-link">
+        <div class="card">
+            <div class="cardleft">
+                <div class="number">_</div>
+                <div class="name">Add Asset</div>
+            </div>
+            <div class="cardright">
+                <div class="Cardlogo">
+                    <ion-icon name="add-outline" aria-label="Add asset"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+<section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="h5"><strong>PPM Work Orders</strong></h5>
+        </div>
+        <div class="cardBody" id="parant">
+
+            <div class="entries">
+                Show
+                <select id="entriesCount" onchange="changeEntriesPerPage()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                </select> entries
+                <div class="d-flex justify-content-end mb-2">
+                    <button id="downloadBtn" class="btn btn-primary">Download as Excel</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="assetTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">
+                                Work_ID<span class="sort-arrow" id="sort-arrow-0">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(1)">
+                                Asset Number<span class="sort-arrow" id="sort-arrow-1">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(2)">
+                                Equipment<span class="sort-arrow" id="sort-arrow-2">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(3)">
+                                Model<span class="sort-arrow" id="sort-arrow-3">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(4)">
+                                Description<span class="sort-arrow" id="sort-arrow-4">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(5)">
+                                Department<span class="sort-arrow" id="sort-arrow-5">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(6)">
+                                Work Requested Date<span class="sort-arrow" id="sort-arrow-6">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(7)">
+                                Requested By<span class="sort-arrow" id="sort-arrow-7">&#8597;</span>
+                            </th>
+                            <th onclick="sortTable(8)">
+                                Status<span class="sort-arrow" id="sort-arrow-8">&#8597;</span>
+                            </th>
+                            <th>__Action__</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search WO Number" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Equipment" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Make" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Model" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Serial Number" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Dept" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search PPM Due" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Warranty Due" onkeyup="filterTable()" />
+                            </th>
+                            <th>
+                                <input type="text" class="search-box" placeholder="Search Status" onkeyup="filterTable()" />
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="ppmwotableBody">
+                    </tbody>
+                </table>
+                <div id="tableInfo">Showing 0 to 0 of 0 entries</div>
+                <ul class="pagination" id="pagination"></ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% for work in worklist %}
+{% include 'viewwo_ModalBME.html' %}
+{% include 'woviewonly.html' %}
+{% endfor %}
+
+<script>
+    // Data passed from Django context
+    const tableData = [
+        {% for work in worklist %}
+        {
+            Work_ID: '{{ work.wo_id }}',
+            Asset_Number: '{{ work.asset_id }}',
+            Equipment: '{{ work.asset_name }}',
+            model: '{{ work.model }}',
+            Description: '{{ work.description }}',
+            Department: '{{ work.dept }}',
+            Work_Date: '{{ work.wo_date }}',
+            Requested_By: '{{ work.reporter }}',
+            Status: '{{ work.status }}',
+            Action: '{{work.counter}}'
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    const UserGroup = "{{ user_group }}";
+</script>
+<script src="{% static 'ppmWoTable.js' %}"></script>
+<script>
+    function woid(workid) {
+        var idField = document.getElementById('wo_id');
+        idField.value = workid;
+
+        document.getElementById('woLink').href = 'service-report/' + workid;
+        //var dateField = document.getElementById('wo_attended');
+        //dateField.value = wodate.date;
+        const now = new Date();
+
+        // Format year, month, day
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(now.getDate()).padStart(2, '0');
+
+        // Format hours and minutes
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        // Combine into the desired format
+        const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+        var dateField = document.getElementById('wo_attended');
+        dateField.value = formattedDateTime;
+    }
+</script>
+{% endblock %}

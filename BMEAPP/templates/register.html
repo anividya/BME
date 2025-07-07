@@ -1,0 +1,149 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">User Registration</h2>
+    <form method="post" id="registration-form">
+      {% csrf_token %}
+      <div class="form-row">
+        <!-- Username -->
+        <div class="form-group col-md-6">
+          <label for="id_username">Username</label>
+          <input type="text" name="username" id="id_username" class="form-control" placeholder="Username" required autocomplete="off">
+          <small id="username-feedback" class="form-text text-danger"></small>
+        </div>
+
+        <!-- First Name -->
+        <div class="form-group col-md-6">
+          <label for="{{ form.first_name.id_for_label }}">First Name</label>
+          <input type="text" name="first_name" id="{{ form.first_name.id_for_label }}" class="form-control" placeholder="First Name" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- Department -->
+        <div class="form-group col-md-6">
+          <label for="id_last_name">Department</label>
+          <select class="form-control select2" id="id_last_name" name="last_name" required>
+            <option value="" selected disabled>--Choose Department--</option>
+            {% for dept in depts %}
+              <option value="{{ dept.LOCATION }}">{{ dept.LOCATION }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <!-- Group -->
+        <div class="form-group col-md-6">
+          <label for="{{ form.group.id_for_label }}">User Group</label>
+          <select name="group" id="{{ form.group.id_for_label }}" class="form-control" required>
+            <option value="" selected disabled>--Choose the Role--</option>
+            {% for group in form.group.field.queryset %}
+              <option value="{{ group.id }}">{{ group.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- Password -->
+        <div class="form-group col-md-6">
+          <label for="{{ form.password.id_for_label }}">Password</label>
+          <input type="password" name="password" id="{{ form.password.id_for_label }}" class="form-control" placeholder="Password" required autocomplete="off">
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group col-md-6">
+          <label for="id_password2">Confirm Password</label>
+          <input type="password" id="id_password2" class="form-control" placeholder="Retype Password" required autocomplete="off">
+          <small id="password-match-feedback" class="form-text text-danger"></small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-block">Register</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Include jQuery (required for Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      placeholder: "--Choose Department--",
+      allowClear: true
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    // AJAX check for username availability
+    $('#id_username').on('keyup', function () {
+      const username = $(this).val();
+      if (username.length > 2) {
+        $.ajax({
+          url: '{% url "check_username" %}',
+          data: { 'username': username },
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+            if (data.exists) {
+              $('#username-feedback').text('This username is already taken.');
+              $('#id_username').addClass('is-invalid');
+            } else {
+              $('#username-feedback').text('');
+              $('#id_username').removeClass('is-invalid');
+            }
+          }
+        });
+      } else {
+        $('#username-feedback').text('');
+        $('#id_username').removeClass('is-invalid');
+      }
+    });
+
+    // Confirm password match
+    function checkPasswords() {
+      const password = $('#{{ form.password.id_for_label }}').val();
+      const confirm = $('#id_password2').val();
+      if (password && confirm && password !== confirm) {
+        $('#password-match-feedback').text('Passwords do not match.');
+        $('#id_password2').addClass('is-invalid');
+        return false;
+      } else {
+        $('#password-match-feedback').text('');
+        $('#id_password2').removeClass('is-invalid');
+        return true;
+      }
+    }
+
+    $('#{{ form.password.id_for_label }}, #id_password2').on('keyup', checkPasswords);
+
+    // Prevent submission if invalid
+    $('#registration-form').on('submit', function (e) {
+      const usernameInvalid = $('#id_username').hasClass('is-invalid');
+      const passwordsMismatch = !checkPasswords();
+      if (usernameInvalid || passwordsMismatch) {
+        e.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Form Error',
+          text: 'Please correct the highlighted fields before submitting.',
+          confirmButtonText: 'OK'
+        });
+      }
+    });
+  });
+</script>
+{% endblock %}

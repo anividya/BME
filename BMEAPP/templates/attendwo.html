@@ -1,0 +1,165 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+  <section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="h5"><strong>Attend Work</strong></h5>
+      </div>
+      <div class="cardBody" id="parant">
+        <form action="" method="post" autocomplete="off" enctype="multipart/form-data" onsubmit="return validateForm()">
+          {% csrf_token %}
+          <div class="form-row align-items-left">
+            <div class="col-auto">
+              <label style="margin-top: 2%;">Description:</label>
+              <textarea class="form-control" rows="3" name="description" readonly>{{ description }}</textarea>
+
+              <label style="margin-top: 6%;">Reported Date:</label>
+              <input class="form-control" id="wo_date" type="datetime" value="{{ wo_date|date:'Y-m-d H:i' }}" readonly />
+
+              <label>Work Order Status:<span style="color: red;">*</span></label>
+              <select class="form-control" id="stat" name="status" required>
+                <option value="WATUSRAPR">CLOSE_WO</option>
+                <option value="WTNGPART">WAITING_FOR_PARTS</option>
+                <option value="WTNGCOMPANY">WAITING_FOR_COMPANY</option>
+                <option value="WTNGAPR">WAITING_FOR_APPROVALS</option>
+              </select>
+            </div>
+
+            <div class="col-auto">
+              <label style="margin-top: 2%;">Attended Date:</label>
+              <input class="form-control" id="woat_date" type="datetime" value="{{ wo_attended|date:'Y-m-d H:i' }}" readonly />
+
+              <div id="dwtm_group">
+                <label style="margin-top: 6%;">Down Time in Minutes:</label>
+                <input class="form-control" id="dwtm" name="downtime" readonly />
+              </div>
+
+              <div id="rsndtime_group">
+                <label style="margin-top: 6%;">Respond Time in Minutes:</label>
+                <input class="form-control" id="rsndtime" name="rsndtime" readonly />
+              </div>
+            </div>
+
+            <div class="col-auto">
+              <label style="margin-top: 2%;">Action:</label>
+              <textarea class="form-control" rows="3" id="action" name="action" required></textarea>
+
+              <div id="wo_done_group">
+                <label style="margin-bottom: 6%;">WO Done Date_Time</label>
+                <input class="form-control" id="wo_done" type="datetime-local" name="wo_done" onchange="duration()" required />
+              </div>
+
+              <label style="margin-bottom:1%;display: inline;">Upload the Documents</label>
+              <input class="form-control" type="file" name="Work_Doc" multiple /><br /><br />
+            </div>
+
+            <div class="col-auto">
+              <label style="margin-top: 2%;">Parts Used:</label>
+              <textarea type="textarea" class="form-control" rows="1" id="part" name="parts" placeholder="Enter the parts Used (*Optional)"></textarea>
+
+              <label style="margin-top: 1%;">Parts Cost:</label>
+              <input type="number" class="form-control" id="partscost" name="partscost" step="0.01" placeholder="Enter the parts cost (*Optional)" />
+
+              <label style="margin-top: 2%;">Signature:</label>
+              <canvas style="background-color: bisque;overflow: scroll;display: block;" id="myCanvas" width="300" height="100" name="sign"></canvas>
+
+              <input id="btnSubmitSign" class="btn btn-secondary btn-sm" type="button" style="margin-top: 2%;" value="Submit Sign" onclick="fun_submit()" />
+              <input id="btnclear" class="btn btn-danger btn-sm" type="button" style="margin-top: 2%;" value="Clear" onclick="clearbtn()" />
+
+              <div data-role="page">
+                <div id="page" data-role="content"></div>
+                <input type="hidden" id="canvas_data" name="canvas_data" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <button type="submit" id="sbtn" class="btn btn-success" style="margin-top: 2%;"><i class="fas fa-database"></i> Submit</button>
+            <a href="{% url 'myWork' %}" class="btn btn-warning" style="margin-top: 2%;"><i class="fas fa-close"></i> Back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script src="{% static 'signature.js' %}"></script>
+  <script>
+    function duration() {
+      var start = document.getElementById('wo_date')
+      var end = document.getElementById('wo_done')
+      var diff = document.getElementById('dwntm')
+      var attfield = document.getElementById('woat_date')
+      var wodate = new Date(start.value)
+      var wodone = new Date(end.value)
+      var attime = new Date(attfield.value)
+      var attdif = attime - wodate
+      var difference = wodone - wodate
+      var minutes = difference / (1000 * 60)
+      var attdifmin = attdif / (1000 * 60)
+      if (attdifmin == 0) {
+        attdifmin = 1
+      }
+      //console.log(attdifmin);
+      var dwntm = document.getElementById('dwtm')
+      dwntm.value = minutes
+      var attm = document.getElementById('rsndtime')
+      attm.value = attdifmin
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const statusSelect = document.getElementById('stat');
+      const dwtmGroup = document.getElementById('dwtm_group');
+      const rsndtimeGroup = document.getElementById('rsndtime_group');
+      const woDoneGroup = document.getElementById('wo_done_group');
+      const woDoneInput = document.getElementById('wo_done');
+  
+      function toggleFields() {
+        const selected = statusSelect.value;
+        const shouldHide = ['WTNGPART', 'WTNGCOMPANY', 'WTNGAPR'].includes(selected);
+  
+        dwtmGroup.style.display = shouldHide ? 'none' : 'block';
+        rsndtimeGroup.style.display = shouldHide ? 'none' : 'block';
+        woDoneGroup.style.display = shouldHide ? 'none' : 'block';
+  
+        if (shouldHide) {
+          woDoneInput.removeAttribute('required');
+        } else {
+          woDoneInput.setAttribute('required', 'required');
+        }
+      }
+  
+      statusSelect.addEventListener('change', toggleFields);
+      toggleFields(); // Initial run
+    });
+  </script>
+  <script>
+  function validateForm() {
+    const woAttendedStr = document.getElementById('woat_date').value;
+    const woDoneStr = document.getElementById('wo_done').value;
+
+    if (!woAttendedStr || !woDoneStr) {
+      return true; // Let HTML5 required fields handle empty case
+    }
+
+    const woAttended = new Date(woAttendedStr);
+    const woDone = new Date(woDoneStr);
+    const now = new Date();
+
+    if (woDone < woAttended) {
+      alert("WO Done Date_Time cannot be before Attended Date.");
+      return false;
+    }
+
+    if (woDone > now) {
+      alert("WO Done Date_Time cannot be in the future.");
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+{% endblock %}

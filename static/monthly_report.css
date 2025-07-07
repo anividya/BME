@@ -1,0 +1,84 @@
+.styled-area {
+    font-family: "Arial", sans-serif;
+    margin: 2cm;
+    font-size: 12pt;
+}
+
+.styled-area h1, .styled-area h2 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.styled-area form {
+    margin-bottom: 2em;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+.styled-area form input,
+.styled-area form select,
+.styled-area form button {
+    font-size: 12pt;
+    padding: 0.3em;
+}
+
+.styled-area canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 2em auto;
+}
+
+.styled-area table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+    font-size: 11pt;
+}
+
+.styled-area th,
+.styled-area td {
+    border: 1px solid #000;
+    padding: 0.5em;
+    text-align: center;
+}
+
+.styled-area th {
+    background-color: #f0f0f0;
+}
+
+@media print {
+    .styled-area {
+        margin: 1cm;
+        font-size: 11pt;
+    }
+
+    .styled-area form,
+    .styled-area button {
+        display: none;
+    }
+
+    .styled-area canvas {
+        page-break-inside: avoid;
+        max-height: 400px;
+    }
+
+    .styled-area table {
+        page-break-after: auto;
+    }
+
+    .styled-area tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    .styled-area thead {
+        display: table-header-group;
+    }
+
+    .styled-area tfoot {
+        display: table-footer-group;
+    }
+}

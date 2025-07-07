@@ -1,0 +1,80 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="modal fade" id="addwoModal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%;">
+    <div class="modal-content">
+      <div class="container">
+        <div class="modal-header">
+          <h5 class="modal-title">Generate Work Order</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearbtn()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form action="add_wo" method="post" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row inline-size">
+              <div class="col-auto">
+                <label style="margin-bottom: 6%;">Asset ID</label>
+                <input class="form-control" id="workassetid" value="" name="asset_id" readonly />
+                <label style="margin-bottom: 6%;">Work ID</label>
+                <input class="form-control" id="workid" name="wo_id" readonly />
+                <input class="form-control" type="hidden" id="wotype" name="wotype" value="CM" />
+                <label style="margin-top: 6%;">Reporting Date_Time</label>
+                <input class="form-control" type="datetime" id="workdate" name="wo_date" readonly />
+              </div>
+              <div class="col-auto">
+                <label style="margin-top: 6%;">Staff Name</label>
+                <input class="form-control" name="reporter" required />
+                <label style="margin-top: 6%;">Description</label>
+                <textarea class="form-control" rows="3" name="description" required></textarea>
+              </div>
+              <div class="col-auto">
+                <div data-role="page">
+                  <div id="page" data-role="content"></div>
+                  <input type="hidden" id="CanvasDataSTAT" name="CanvasDataSTAT" value="NotSigned" required />
+                  <input type="hidden" id="canvas_data" name="canvas_data" required />
+                </div>
+              </div>
+              <div class="col-auto">
+                <canvas style="background-color: bisque;margin-top: 6%;" id="myCanvas" width="400" height="100" name="sign"></canvas>
+                <input id="btnSubmitSign" type="button" data-inline="true" data-mini="true" data-theme="b" value="Submit Sign" onclick="fun_submit()" />
+                <input id="btnclear" type="button" data-inline="true" data-mini="true" data-theme="b" value="Clear" onclick="clearbtn()" />
+              </div>
+              <div class="col-auto">
+                <input class="form-control" id="assetname" type="hidden" name="asset_name" />
+              </div>
+              <div class="col-auto">
+                <input class="form-control" id="make" type="hidden" name="make" />
+              </div>
+              <div class="col-auto">
+                <input class="form-control" id="model" type="hidden" name="model" />
+              </div>
+              <div class="col-auto">
+                <input class="form-control" id="slno" type="hidden" name="slno" />
+              </div>
+              <div class="col-auto">
+                <input class="form-control" id="dept" type="hidden" name="dept" />
+              </div>
+              <div class="col-auto">
+                <input class="form-control" id="stat" type="hidden" name="status" />
+              </div>
+            </div>
+            <button type="button" id="form-sbtn" class="btn btn-success" onclick="signcheck()" style="margin-top: 2%;"><i class="fas fa-database"></i> Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function signcheck() {
+    let subButton = document.getElementById('form-sbtn')
+    let canvasStatus = document.getElementById('CanvasDataSTAT').value
+    console.log(canvasStatus)
+  
+    if (canvasStatus === 'Signed') {
+      subButton.setAttribute('type', 'submit')
+    } else {
+      alert('Please sign and Click Submit Sign')
+    }
+  }
+</script>

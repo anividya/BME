@@ -1,0 +1,55 @@
+<div class="modal fade" id="viewModal-{{forloop.counter}}" role="dialog" aria-hidden="true" style="width: 100%;height: max-content;">
+    <div class="modal-dialog " role="document">
+      <div class="modal-content" >
+        <div class="container" >
+          <div class="modal-header">
+                <h5 class="modal-title">Quick View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+          <div class="modal-body" >
+              <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class = "form-row align-items-center">
+                      <div class="col-auto">
+                          <label style="margin-bottom: 0%;">Asset ID</label>
+                          <input name="assetid" value="{{Asset.assetid}}" type="text" class="form-control" disabled>
+                      </div>
+                      <div class="col-auto">
+                          <label style="margin-bottom: 0%;">Serial Number</label>
+                          <input name="pmdue" value="{{Asset.slno}}" type="text" id="disabledInput" class="form-control" disabled>
+                      </div>
+                      <div class="col-auto">
+                        <label style="margin-bottom: 0%;">PM Due</label>
+                        <input name="assetname" value="{{Asset.pmdue}}" type="text" class="form-control" disabled>
+                      </div>
+                      <div class="col-auto">
+                        <label style="margin-bottom: 0%;">CAL Due</label>
+                        <input name="pmdue" value="{{Asset.caldue}}" type="text" id="disabledInput" class="form-control" disabled>
+                      </div>
+                      <div class="col-auto">
+                        <label style="margin-bottom: 0%;">Warranty Due</label>
+                        <input name="assetname" value="{{Asset.wrend}}" type="text" class="form-control" disabled>
+                      </div>
+                      <div class="col-auto">
+                        <label style="margin-bottom: 0%;">AMC Due</label>
+                        <input name="pmdue" value="{{Asset.mcend}}" type="text" id="disabledInput" class="form-control" disabled>
+                      </div>
+                      <!--<div class="col-auto">
+                        {% if Asset.doc %}
+                          <a href="{{Asset.doc.url}}" target="_blank">Installation Documents- {{Asset.doc}}</a>
+                        {% endif %}
+                      </div>-->
+                    </div>
+                    <div class = "row">
+                      <div class="col-auto">
+                        <a href="{% url 'asset_detail' Asset.assetid %}" class="btn btn-success" style="margin-top: 4%;"> Detailed View</a>
+                      </div>
+                    </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

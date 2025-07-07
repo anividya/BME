@@ -1,0 +1,144 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+  {% include 'pr_ModalAdd.html' %}
+  {% include 'pr_ModalView.html' %}
+  <div class="CardboxGt">
+    <div class="cardGt">
+      <div>
+        <div class="number">87</div>
+        <div class="name">Approved</div>
+      </div>
+      <div>
+        <div class="CardlogoGt">
+          <ion-icon class="las la-clipboard-check"></ion-icon> <!-- Updated Icon -->
+        </div>
+      </div>
+    </div>
+    <div class="cardGt">
+      <div>
+        <div class="number">1</div>
+        <div class="name">Requested</div>
+      </div>
+      <div>
+        <div class="CardlogoGt">
+          <ion-icon class="las la-clipboard-list"></ion-icon> <!-- Updated Icon -->
+        </div>
+      </div>
+    </div>
+    <div class="cardGt">
+      <div>
+        <a href="#pr_ModalAdd" class="name" data-toggle="modal">Add Purchase</a>
+      </div>
+      <div>
+        <div class="CardlogoGt">
+          <ion-icon class="las la-plus-circle"></ion-icon> <!-- Updated Icon -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <section style="padding: 10px 10px 10px 10px;">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="h5"><strong>Purchase Requests</strong></h5>
+      </div>
+      <div class="cardBody" id="parant">
+        <div class="entries">
+          Show<select id="entriesCount" onchange="changeEntriesPerPage()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>entries<div class="d-flex justify-content-end mb-2">
+            <button id="downloadBtn" class="btn btn-primary">Download as Excel</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table id="assetTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0)">
+                  PR_No<span class="sort-arrow" id="sort-arrow-0">&#8597;</span>
+                </th>
+                <th onclick="sortTable(1)">
+                  Asset_Name<span class="sort-arrow" id="sort-arrow-1">&#8597;</span>
+                </th>
+                <th onclick="sortTable(2)">
+                  Need for Purchase<span class="sort-arrow" id="sort-arrow-2">&#8597;</span>
+                </th>
+                <th onclick="sortTable(3)">
+                  Features<span class="sort-arrow" id="sort-arrow-3">&#8597;</span>
+                </th>
+                <th onclick="sortTable(4)">
+                  Requested Date<span class="sort-arrow" id="sort-arrow-4">&#8597;</span>
+                </th>
+                <th onclick="sortTable(5)">
+                  Department<span class="sort-arrow" id="sort-arrow-5">&#8597;</span>
+                </th>
+                <th onclick="sortTable(6)">
+                  Status<span class="sort-arrow" id="sort-arrow-6">&#8597;</span>
+                </th>
+                <th>__Action__</th>
+              </tr>
+              <tr>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Pr Number" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Equipment" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Need" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Features" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Req:Date" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Dept" onkeyup="filterTable()" />
+                </th>
+                <th>
+                  <input type="text" class="search-box" placeholder="Search Status" onkeyup="filterTable()" />
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="prTableBody"></tbody>
+          </table>
+          <div id="tableInfo">Showing 0 to 0 of 0 entries</div>
+          <ul class="pagination" id="pagination"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% for pr in prdata %}
+    {% include 'pr_ModalView.html' %}
+  {% endfor %}
+
+  <script>
+    // Data passed from Django context
+    const tableData = [
+        {% for pr in prdata %}
+        {
+            PR_No: '{{ pr.PRN }}',
+            Asset_Name: '{{ pr.Eq_Name }}',
+            Need: '{{ pr.Need }}',
+            Features: '{{ pr.Eq_Features }}',
+            Requested_Date: '{{ pr.User_Date }}',
+            Department: '{{ pr.Dept }}',
+            Status: '{{ pr.status }}',
+            Action: '{{pr.counter}}'
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+const UserGroup = "{{ user_group }}";
+</script>
+  <script src="{% static 'prTable.js' %}"></script>
+  <script src="{% static 'signature.js' %}"></script>
+
+{% endblock %}
