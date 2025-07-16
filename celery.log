@@ -21451,3 +21451,335 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'workbook_list' not found. 'w
 [2025-07-06 11:05:12,116] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
 [2025-07-06 11:05:15,543] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
 [2025-07-07 15:04:28,651] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-07 15:18:57,559] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 09:58:32,446] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:05:21,558] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:05:26,636] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:08:49,655] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:08:52,744] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:14:48,812] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:14:52,640] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:15:06,391] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:15:09,732] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:22:12,579] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:22:16,744] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:22:58,284] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:23:01,083] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:23:44,092] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:23:47,138] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:25:22,860] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:25:25,765] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:26:09,769] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 10:28:09,932] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:28:22,038] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 10:29:03,749] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 10:29:15,105] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 10:30:50,286] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 10:33:58,751] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:34:02,598] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:34:10,014] ERROR/MainProcess/django.request: Internal Server Error: /add_wo
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\views\decorators\cache.py", line 54, in _view_wrapper
+    response = viewfunc(request, *args, **kw)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py", line 654, in add_wo
+    pass_data = get_wopass_data(user_group, assets, userdept)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py", line 26, in get_wopass_data
+    'PPM_DUE': assetqueryset.objects.filter(pmstat='OVER DUE').count(),
+               ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QuerySet' object has no attribute 'objects'
+[2025-07-08 10:34:41,320] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:34:44,147] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:43:39,406] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:43:43,169] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:44:17,174] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:44:19,945] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:44:32,056] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:44:34,853] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:44:56,281] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\wopass_function.py changed, reloading.
+[2025-07-08 10:44:59,194] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:45:20,077] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 10:46:06,291] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:46:09,713] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:49:23,501] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:49:26,617] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 10:51:55,730] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 10:51:58,551] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 11:02:21,967] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 11:02:25,371] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 11:57:29,873] WARNING/MainProcess/django.request: Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-08 12:01:58,288] INFO/MainProcess/django.utils.autoreload: D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py changed, reloading.
+[2025-07-08 12:02:08,662] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-08 12:20:54,455] WARNING/MainProcess/django.request: Not Found: /media/LLL.jpeg
+[2025-07-08 15:50:12,955] ERROR/MainProcess/django.request: Internal Server Error: /add_wo
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\template\smartif.py", line 180, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "'BMEADMIN,BMESTAFF,MANAGEMENT'|split:','"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\views\decorators\cache.py", line 54, in _view_wrapper
+    response = viewfunc(request, *args, **kw)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py", line 670, in add_wo
+    return render(request, 'add_wo.html', pass_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\defaulttags.py", line 961, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\defaulttags.py", line 894, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Python312\Lib\site-packages\django\template\smartif.py", line 171, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\smartif.py", line 182, in translate_token
+    return self.create_var(token)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\defaulttags.py", line 897, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'split'
+[2025-07-08 15:50:43,393] ERROR/MainProcess/django.request: Internal Server Error: /add_wo
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\views\decorators\cache.py", line 54, in _view_wrapper
+    response = viewfunc(request, *args, **kw)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py", line 670, in add_wo
+    return render(request, 'add_wo.html', pass_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 567, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 180: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+[2025-07-08 15:53:40,101] ERROR/MainProcess/django.request: Internal Server Error: /add_wo
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'else'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\views\decorators\cache.py", line 54, in _view_wrapper
+    response = viewfunc(request, *args, **kw)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\RDD\CARITHAS\CRTHSBME\BMEAPP\views.py", line 670, in add_wo
+    return render(request, 'add_wo.html', pass_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Python312\Lib\site-packages\django\template\base.py", line 567, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 12: 'else', expected 'endblock'. Did you forget to register or load this tag?
+[2025-07-16 09:33:11,522] INFO/MainProcess/django.utils.autoreload: Watching for file changes with StatReloader
+[2025-07-16 09:37:47,498] WARNING/MainProcess/django.request: Not Found: /media/LLL.jpeg
+[2025-07-16 09:38:13,532] WARNING/MainProcess/django.request: Not Found: /media/LLL.jpeg

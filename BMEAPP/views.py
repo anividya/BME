@@ -213,17 +213,27 @@ def index(request):
         assetcatogery = "CH"
 
     user_group = None
+    #================================================================================
     for group in request.user.groups.all():
         user_group = group.name
+    userdept = request.user.last_name
     thirty_days_ago = timezone.now() - timedelta(days=30)
+    if user_group in ["BMEADMIN", "BMESTAFF", "MANAGEMENT"]:
+        queryset = Workbook.objects.all()
+        assetqueryset = Asset.objects.all()
+    else:
+        queryset = Workbook.objects.filter(reportingDept=userdept)
+        assetqueryset = Asset.objects.filter(dept=userdept)
+
     status_counts = {
-        'CLOSED': Workbook.objects.filter(status='CLOSED',wo_done__gte=thirty_days_ago).count(),
-        'WATUSRAPR': Workbook.objects.filter(status='WATUSRAPR').count(),
-        'ASSIGNED': Workbook.objects.filter(status='ASSIGNED').count(),
-        'RELEASED': Workbook.objects.filter(status='RELEASED').count(),
-        'PPM_DUE': Asset.objects.filter(Q(pmstat='OVER DUE')).count(),
-        'CAL_DUE': Asset.objects.filter(Q(calstat='OVER DUE') & Q(assetid__startswith='CH')).count()
+        'CLOSED': queryset.filter(status='CLOSED', wo_done__gte=thirty_days_ago).count(),
+        'WATUSRAPR': queryset.filter(status='WATUSRAPR').count(),
+        'ASSIGNED': queryset.filter(status='ASSIGNED').count(),
+        'RELEASED': queryset.filter(status='RELEASED').count(),
+        'PPM_DUE': assetqueryset.filter(pmstat='OVER DUE').count(),
+        'CAL_DUE': assetqueryset.filter(calstat='OVER DUE', assetid__startswith='CH').count(),
     }
+    #================================================================================
     ppmduenum = Asset.objects.filter(
         Q(pmstat='OVER DUE') & Q(assetid__startswith='CH')).count()
 
@@ -238,11 +248,12 @@ def index(request):
     group_data = {
         'BMEADMIN': {'sidebar_template': sidebar_template, 'hovered1': "hovered", 'status_counts': status_counts, 'assetcat': assetcatogery},
         'BMESTAFF': {'sidebar_template': sidebar_template, 'hovered1': "hovered", 'status_counts': status_counts},
-        'NURSING': {'sidebar_template': sidebar_template, 'hovered2': "hovered"},
+        'NURSING': {'sidebar_template': sidebar_template, 'hovered2': "hovered",'status_counts': status_counts},
         'MANAGEMENT': {'sidebar_template': sidebar_template, 'hovered1': "hovered", 'status_counts': status_counts}
     }
 
     pass_data = group_data.get(user_group)
+    pass_data['user_group'] = user_group
     return render(request, gotosite, pass_data)
 
     # return render(request, pass_data, 'asset_list.html')
@@ -574,10 +585,10 @@ def asset_detail(request, Asset_No):
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url="/login/")
 def add_wo(request):
+
     assetcat = request.GET.get('asset_type')
     if assetcat:
         assetcatogery = request.GET.get('asset_type')
@@ -631,25 +642,31 @@ def add_wo(request):
             user_group = None
             for group in request.user.groups.all():
                 user_group = group.name
-            pass_data = get_wopass_data(user_group, assets)
+            userdept = request.user.last_name
+            pass_data = get_wopass_data(user_group, assets, userdept)
             pass_data['message'] = "Work Order Generated Succesfully!!!"
             pass_data['success'] = True
+            pass_data['user_group'] = user_group
             return render(request, 'add_wo.html', pass_data)
         else:
             user_group = None
             for group in request.user.groups.all():
                 user_group = group.name
-            pass_data = get_wopass_data(user_group, assets)
+            userdept = request.user.last_name
+            pass_data = get_wopass_data(user_group, assets, userdept)
             pass_data['message'] = "Error!!!"
             pass_data['error'] = True
+            pass_data['user_group'] = user_group
             return render(request, 'add_wo.html', pass_data)
 
     else:
         user_group = None
         for group in request.user.groups.all():
             user_group = group.name
-        pass_data = get_wopass_data(user_group, assets)
+        userdept = request.user.last_name
+        pass_data = get_wopass_data(user_group, assets, userdept)
         pass_data['assetcat'] = assetcatogery
+        pass_data['user_group'] = user_group
         return render(request, 'add_wo.html', pass_data)
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

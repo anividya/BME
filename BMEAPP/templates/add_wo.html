@@ -2,11 +2,15 @@
 {% load static %}
 
 {% block content %}
-  <div class="Cardbox">
+  <div class="Cardbox {% if user_group == 'NURSING' %}nursing-grid{% endif %}">
     <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
       <div class="card">
         <div class="cardleft">
-          <div class="number">{{ status_counts.PPM_DUE }}</div>
+          {% if user_group == 'BMEADMIN' or user_group == 'BMESTAFF' or user_group == 'MANAGEMENT' %}
+            <div class="number">{{ status_counts.PPM_DUE }}</div>
+          {% else %}
+            <div class="number">~</div>
+          {% endif %}
           <div class="name">PPM Due</div>
         </div>
         <div class="cardright">
@@ -29,10 +33,11 @@
         </div>
       </div>
     </a>
+    {% if user_group == "BMEADMIN" %}
     <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
       <div class="card">
         <div class="cardleft">
-          <div class="number">1</div>
+          <div class="number">~</div>
           <div class="name">AMC/CMC Due</div>
         </div>
         <div class="cardright">
@@ -55,9 +60,15 @@
         </div>
       </div>
     </a>
+    {% endif %}
   </div>
-  <!-- Work Order Status Chart -->
-  <!-- Work Order Status Chart -->
+  <section style="padding: 10px;">
+    <div class="card">
+      <div class="chart-container">
+        <canvas id="statusChart"></canvas>
+      </div>
+    </div>
+  </section>
   <section style="padding: 10px 10px 10px 10px;">
     <div class="card">
       <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -413,16 +424,16 @@
           },
           success: function (response) {
             //$('#addwoModal').html(response)
-            document.getElementById('workid').value= response.key;
-            document.getElementById('workdate').value= response.date;
-            document.getElementById('workassetid').value= response.assetdata.id;
-            document.getElementById('assetname').value = response.assetdata.assetname;
-            document.getElementById('make').value = response.assetdata.asset_make;
-            document.getElementById('model').value = response.assetdata.asset_model;
-            document.getElementById('slno').value = response.assetdata.slno;
-            document.getElementById('dept').value = response.assetdata.dept;
-            document.getElementById('stat').value = "RELEASED"; //release
-   
+            document.getElementById('workid').value = response.key
+            document.getElementById('workdate').value = response.date
+            document.getElementById('workassetid').value = response.assetdata.id
+            document.getElementById('assetname').value = response.assetdata.assetname
+            document.getElementById('make').value = response.assetdata.asset_make
+            document.getElementById('model').value = response.assetdata.asset_model
+            document.getElementById('slno').value = response.assetdata.slno
+            document.getElementById('dept').value = response.assetdata.dept
+            document.getElementById('stat').value = 'RELEASED' //release
+    
             console.log(response)
             $('#addwoModal').modal('show')
           },
@@ -441,4 +452,122 @@
     })
   </script>
   <script src="{% static 'signature.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('statusChart').getContext('2d');
+
+        // Register the plugin
+        Chart.register(ChartDataLabels);
+
+        const statusLabels = ['WORK_DONE', 'USER_APPROVAL', 'ASSIGNED', 'RELEASED'];
+        const statusCounts = {
+            WORK_DONE: {{ status_counts.CLOSED|default:"0"|safe }},
+            USER_APPROVAL: {{ status_counts.WATUSRAPR|default:"0"|safe }},
+            ASSIGNED: {{ status_counts.ASSIGNED|default:"0"|safe }},
+            RELEASED: {{ status_counts.RELEASED|default:"0"|safe }}
+        };
+
+        const statusChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: statusLabels,
+                datasets: [{
+                    label: 'Work Orders by Status',
+                    data: [
+                        statusCounts.WORK_DONE,
+                        statusCounts.USER_APPROVAL,
+                        statusCounts.ASSIGNED,
+                        statusCounts.RELEASED
+                    ],
+                    backgroundColor: [
+                        'rgba(9, 190, 9, 1)',        // WORK_DONE
+                        'rgba(218, 197, 12, 1)',     // USER_APPROVAL
+                        'rgba(238, 140, 101, 1)',    // ASSIGNED
+                        'rgba(244, 67, 54, 1)'       // RELEASED
+                    ],
+                    borderColor: [
+                        'rgba(9, 190, 9, 0.92)',
+                        'rgba(218, 197, 12, 0.81)',
+                        'rgba(238, 140, 101, 0.52)',
+                        'rgba(244, 67, 54, 0.7)'
+                    ],
+                    borderWidth: 1,
+                    hoverBackgroundColor: [
+                        'rgba(9, 190, 9, 0.92)',
+                        'rgba(218, 197, 12, 0.81)',
+                        'rgba(238, 140, 101, 0.52)',
+                        'rgba(244, 67, 54, 0.7)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        type: 'logarithmic',
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Log Scale Count'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return Number.isInteger(Math.log10(value)) ? value : '';
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Status'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index'
+                    },
+                    datalabels: {
+                        color: '#000',
+                        anchor: 'end',
+                        align: 'top',
+                        font: {
+                            weight: 'bold'
+                        },
+                        formatter: function(value) {
+                            return value;
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Click handler for bars
+        document.getElementById('statusChart').addEventListener('click', function(e) {
+            const activePoints = statusChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+
+            if (activePoints.length > 0) {
+                const clickedIndex = activePoints[0].index;
+                const statusMapping = {
+                    'WORK_DONE': 'CLOSED',
+                    'USER_APPROVAL': 'WATUSRAPR', 
+                    'ASSIGNED': 'ASSIGNED',
+                    'RELEASED': 'RELEASED'
+                };
+                const selectedStatus = statusLabels[clickedIndex];
+                const keyid = statusMapping[selectedStatus];
+                window.location.href = `{% url 'filter_wo' %}?keyid=${encodeURIComponent(keyid)}`;
+            }
+        });
+    });
+  </script>
 {% endblock %}

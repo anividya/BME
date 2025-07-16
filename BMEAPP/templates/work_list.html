@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% if user_group == "BMEADMIN" or user_group == "BMESTAFF"%}
   <div class="Cardbox">
     <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
       <div class="card">
@@ -56,6 +57,7 @@
       </div>
     </a>
   </div>
+{% endif %}
   <section style="padding: 10px 10px 10px 10px;">
     <div class="card">
       <div class="card-header py-3 d-flex justify-content-between align-items-center">

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-  <div class="Cardbox">
+  <div class="Cardbox {% if user_group == 'NURSING' %}nursing-grid{% endif %}">
     <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
       <div class="card">
         <div class="cardleft">
@@ -29,10 +29,11 @@
         </div>
       </div>
     </a>
+    {% if user_group == "BMEADMIN" %}
     <a href="{% url 'index' %}" style="text-decoration: none; color: inherit;">
       <div class="card">
         <div class="cardleft">
-          <div class="number">1</div>
+          <div class="number">~</div>
           <div class="name">AMC/CMC Due</div>
         </div>
         <div class="cardright">
@@ -55,6 +56,7 @@
         </div>
       </div>
     </a>
+    {% endif %}
   </div>
   <!-- Work Order Status Chart -->
   <section style="padding: 10px;">

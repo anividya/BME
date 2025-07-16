@@ -251,6 +251,10 @@ body {
     gap: 30px;
 }
 
+.Cardbox.nursing-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .Cardbox .card {
     background: var(--white);
     padding: 20px;
